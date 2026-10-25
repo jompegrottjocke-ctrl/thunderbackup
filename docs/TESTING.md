@@ -1,3 +1,11 @@
+# Testuppdatering för 0.2.0
+
+Regressionstester har utökats med opt-in för korta lösenord, rundtur med 1–11 tecken, standardspärr, tomt lösenord och maxlängd. Windows-testprojektet `ThunderbirdAccounts.UiTests` renderar huvudfönster (normal och minsta storlek), profilväljare och appdialoger. Det interagerar även med lösenordsdialogerna och verifierar att korta lösenord kräver aktivt val vid backup men kan anges direkt vid restore. Endast syntetiska konton används och ingen Thunderbird-profil läses.
+
+`build.ps1` kör detta WPF-test på Windows och sparar PNG-filer till `artifacts/ui-preview`. GitHub Actions laddar upp dem som `ThunderbirdAccounts-ui-preview`. Windows-CI för 0.1.0 har redan passerat; protokollet nedan beskriver det ursprungliga Linux-underlaget. Inget automatiskt test ersätter acceptanstest mot en verklig Thunderbird-installation.
+
+---
+
 # Testprotokoll — 2026-10-25
 
 ## Genomfört

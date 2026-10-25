@@ -31,6 +31,8 @@ var tests = new (string, Action)[]
     ("Locked existing target blocks restore without changes", LockedRestore),
     ("Staged database failure rolls back before registration", StagingRollback),
     ("Wrong backup password rejected", WrongPassword),
+    ("Short backup passwords require explicit opt-in", ShortPasswordOptIn),
+    ("Empty and oversized passwords always rejected", PasswordBounds),
     ("Ciphertext and header tampering rejected", Tampering),
     ("Truncated and oversized envelopes rejected", BadEnvelope),
     ("Unicode and custom profile paths supported", ProfilePaths),
@@ -331,5 +333,40 @@ static void StagingRollback()
         Throws<InvalidDataException>(() => new BackupService().Restore(a, dest));
         Check(!File.Exists(Path.Combine(dest, "profiles.ini")));
         Check(Directory.GetDirectories(Path.Combine(dest, "Profiles")).Length == 0);
+    } finally { Directory.Delete(root, true); }
+}
+
+static void ShortPasswordOptIn()
+{
+    string root = Temp(); try
+    {
+        var p = Fixture(root); var data = Capture(p);
+        Throws<ArgumentException>(() => Archive.Encrypt(data, "1234"));
+        foreach (string password in new[] { "x", "1234", "kortlösen" })
+        {
+            byte[] encrypted = Archive.Encrypt(data, password, allowShortPassword: true);
+            var restored = Archive.Decrypt(encrypted, password);
+            Check(AccountSettings.Read(restored.Preferences).Count == 3);
+            BackupService.ClearFiles(restored);
+        }
+        string file = Path.Combine(root, "short.tbaccounts");
+        new BackupService().Backup(p, "145.0", file, "1234", allowShortPassword: true);
+        var backup = Archive.Read(file, "1234"); Check(backup.ProfileName == p.Name); BackupService.ClearFiles(backup);
+        Throws<ArgumentException>(() => new BackupService().Backup(p, "145.0", Path.Combine(root, "blocked.tbaccounts"), "1234"));
+        Check(!File.Exists(Path.Combine(root, "blocked.tbaccounts")));
+    } finally { Directory.Delete(root, true); }
+}
+static void PasswordBounds()
+{
+    string root = Temp(); try
+    {
+        var data = Capture(Fixture(root));
+        foreach (bool allowShort in new[] { false, true })
+        {
+            Throws<ArgumentException>(() => Archive.Encrypt(data, "", allowShort));
+            Throws<ArgumentException>(() => Archive.Encrypt(data, new string('x', 1025), allowShort));
+        }
+        byte[] valid = Archive.Encrypt(data, "original-password");
+        Throws<ArgumentException>(() => Archive.Decrypt(valid, ""));
     } finally { Directory.Delete(root, true); }
 }

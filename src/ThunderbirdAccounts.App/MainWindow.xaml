@@ -1,9 +1,92 @@
-<Window x:Class="ThunderbirdAccounts.App.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Thunderbird Account Backup &amp; Restore" Width="1160" Height="800" MinWidth="900" MinHeight="650" WindowStartupLocation="CenterScreen">
- <Grid Margin="32"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-  <StackPanel Margin="0,0,0,26"><TextBlock Text="THUNDERBIRD • ACCOUNT TOOLS" Foreground="#6ED9C4" FontSize="12" FontWeight="Bold"/><TextBlock Text="Dina konton. Redo för nästa start." FontSize="30" FontWeight="SemiBold" Margin="0,8,0,8"/><TextBlock Text="Säkerhetskopiera kontoinställningar och sparade inloggningar — utan e-postmeddelanden." Foreground="#9FB0C2"/><TextBlock x:Name="InstallationText" Foreground="#9FB0C2" Margin="0,12,0,0" TextWrapping="Wrap"/></StackPanel>
-  <Border Grid.Row="1" Background="{StaticResource Surface}" CornerRadius="10" Padding="20" Margin="0,0,0,20"><StackPanel><DockPanel Margin="0,0,0,10"><TextBlock Text="THUNDERBIRD-PROFIL" Foreground="#9FB0C2" FontSize="12" VerticalAlignment="Center"/><StackPanel Orientation="Horizontal" HorizontalAlignment="Right"><Button Content="Uppdatera" Click="Refresh_Click" Padding="12,7"/><Button Content="Välj profilmapp…" Click="Browse_Click" Padding="12,7"/><Button Content="Välj Thunderbird…" Click="Executable_Click" Padding="12,7" Margin="0"/></StackPanel></DockPanel><ComboBox x:Name="ProfilesBox" SelectionChanged="Profile_Changed" FontSize="14" Padding="8" AutomationProperties.Name="Thunderbird-profil"/></StackPanel></Border>
-  <Border Grid.Row="2" Background="{StaticResource Surface}" CornerRadius="10" Padding="18"><Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions><DockPanel Margin="0,0,0,16"><TextBlock Text="Identifierade konton" FontSize="18" FontWeight="SemiBold"/><TextBlock x:Name="CountText" HorizontalAlignment="Right" Foreground="#6ED9C4"/></DockPanel><DataGrid x:Name="AccountsGrid" Grid.Row="1" AutomationProperties.Name="Identifierade e-postkonton"><DataGrid.Columns><DataGridTextColumn Header="Konto / namn" Binding="{Binding Name}" Width="1.1*"/><DataGridTextColumn Header="E-postadress" Binding="{Binding Email}" Width="1.4*"/><DataGridTextColumn Header="Typ" Binding="{Binding Type}" Width="70"/><DataGridTextColumn Header="Inkommande" Binding="{Binding Incoming}" Width="*"/><DataGridTextColumn Header="Utgående" Binding="{Binding Outgoing}" Width="*"/></DataGrid.Columns></DataGrid></Grid></Border>
-  <StackPanel Grid.Row="3" Margin="0,20,0,18"><StackPanel Orientation="Horizontal"><Button x:Name="BackupButton" Content="Backup Accounts" Click="Backup_Click" Background="#187F70" FontWeight="SemiBold"/><Button x:Name="RestoreButton" Content="Restore Accounts" Click="Restore_Click" FontWeight="SemiBold"/><Button x:Name="LaunchButton" Content="Öppna återställd profil" Click="Launch_Click" Visibility="Collapsed"/></StackPanel><TextBlock Text="Stäng Thunderbird före backup och restore. OAuth kan kräva ny inloggning; Primary Password behålls." Foreground="#9FB0C2" Margin="0,14,0,0" TextWrapping="Wrap"/><TextBlock Text="POP3: lokalt sparad e-post ingår inte. Automatisk hämtning stängs av vid återställning." Foreground="#E7BD79" Margin="0,5,0,0" TextWrapping="Wrap"/></StackPanel>
-  <Border Grid.Row="4" Background="#182330" CornerRadius="8" Padding="14"><StackPanel><ProgressBar x:Name="Progress" Height="3" IsIndeterminate="True" Visibility="Collapsed" Margin="0,0,0,10" Foreground="#6ED9C4"/><TextBlock x:Name="StatusText" Text="Redo." TextWrapping="Wrap" Foreground="#BDD0E1"/></StackPanel></Border>
- </Grid>
+<Window x:Class="ThunderbirdAccounts.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Thunderbird Account Backup &amp; Restore" Width="1300" Height="880" MinWidth="1060" MinHeight="780"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+        <Border Background="#151619" BorderBrush="#292A30" BorderThickness="0,0,1,0" Padding="20,28,20,22">
+            <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <StackPanel>
+                    <Border Width="42" Height="42" CornerRadius="13" Background="{StaticResource AccentSurface}" HorizontalAlignment="Left" Margin="0,0,0,16">
+                        <Path Data="M 3,5 L 21,5 L 21,19 L 3,19 Z M 3,5 L 12,12 L 21,5" Stroke="{StaticResource Accent}" StrokeThickness="1.6" Width="24" Height="24" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="Thunderbird" FontSize="21" FontWeight="SemiBold"/>
+                    <TextBlock Text="Account Backup &amp; Restore" Foreground="{StaticResource Muted}" FontSize="11" Margin="0,5,0,0"/>
+                    <Border Background="#242529" CornerRadius="5" Padding="8,4" HorizontalAlignment="Left" Margin="0,14,0,34"><TextBlock Text="VERSION 0.2.0" FontSize="10" Foreground="#B7B7C1"/></Border>
+                </StackPanel>
+                <StackPanel Grid.Row="1" x:Name="ToolsPanel">
+                    <Border Background="{StaticResource AccentSurface}" CornerRadius="9" Padding="15,12" Margin="0,0,0,27"><TextBlock Text="Översikt" Foreground="{StaticResource Accent}" FontWeight="SemiBold"/></Border>
+                    <TextBlock Text="VERKTYG" Foreground="#777983" FontSize="10" FontWeight="SemiBold" Margin="15,0,0,9"/>
+                    <Button Style="{StaticResource SidebarButton}" Content="Uppdatera profiler" Click="Refresh_Click"/>
+                    <Button Style="{StaticResource SidebarButton}" Content="Välj profilmapp…" Click="Browse_Click"/>
+                    <Button Style="{StaticResource SidebarButton}" Content="Välj Thunderbird…" Click="Executable_Click"/>
+                </StackPanel>
+                <StackPanel Grid.Row="3">
+                    <Border BorderBrush="#303138" BorderThickness="0,1,0,0" Padding="0,18,0,0"><StackPanel>
+                        <TextBlock Text="Lokalt. Privat. Krypterat." FontSize="12" Foreground="#C5C4CD" FontWeight="SemiBold"/>
+                        <TextBlock Text="Dina konton stannar hos dig." FontSize="11" Foreground="#777983" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                    </StackPanel></Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Grid Grid.Column="1" Margin="32,28,32,22">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <StackPanel Margin="0,0,0,22">
+                <TextBlock Text="DIN KONTOBACKUP" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource Accent}"/>
+                <TextBlock Text="Redo för en ny start." FontSize="30" FontWeight="SemiBold" Margin="0,7,0,7"/>
+                <TextBlock Text="Alla dina konton, säkert samlade. Återställ dem när du behöver." Foreground="{StaticResource Muted}" FontSize="13"/>
+                <TextBlock x:Name="InstallationText" Foreground="#777983" FontSize="11" Margin="0,12,0,0" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+            </StackPanel>
+            <Border Grid.Row="1" Background="{StaticResource Surface}" BorderBrush="#2A2B31" BorderThickness="1" CornerRadius="12" Padding="18,15" Margin="0,0,0,18">
+                <StackPanel>
+                    <TextBlock Text="Vald Thunderbird-profil" FontWeight="SemiBold" FontSize="12" Margin="0,0,0,10"/>
+                    <ComboBox x:Name="ProfilesBox" SelectionChanged="Profile_Changed" AutomationProperties.Name="Thunderbird-profil">
+                        <ComboBox.ItemTemplate><DataTemplate><StackPanel>
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding Path}" Foreground="{StaticResource Muted}" FontSize="11" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel></DataTemplate></ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </Border>
+            <Grid Grid.Row="2" Margin="0,0,0,20"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="14"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                <Button x:Name="BackupButton" Style="{StaticResource PrimaryButton}" Click="Backup_Click" HorizontalContentAlignment="Stretch" Padding="20,16" AutomationProperties.Name="Backup Accounts – skapa backup">
+                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="Skapa backup" FontSize="17" FontWeight="SemiBold"/><TextBlock Text="Spara konton och inloggningar" Opacity="0.8" FontSize="12" Margin="0,5,0,0"/></StackPanel><Path Grid.Column="1" Data="M 8,0 L 8,15 M 2,9 L 8,15 L 14,9 M 0,20 L 16,20" Stroke="#271D3A" StrokeThickness="1.7" Width="18" Height="22" Stretch="Uniform" VerticalAlignment="Center"/></Grid>
+                </Button>
+                <Button x:Name="RestoreButton" Grid.Column="2" Click="Restore_Click" HorizontalContentAlignment="Stretch" Padding="20,16" AutomationProperties.Name="Restore Accounts – återställ backup">
+                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="Återställ backup" FontSize="17" FontWeight="SemiBold"/><TextBlock Text="Flytta tillbaka dina konton" Foreground="{StaticResource Muted}" FontSize="12" Margin="0,5,0,0"/></StackPanel><Path Grid.Column="1" Data="M 8,20 L 8,5 M 2,11 L 8,5 L 14,11 M 0,0 L 16,0" Stroke="{StaticResource Accent}" StrokeThickness="1.7" Width="18" Height="22" Stretch="Uniform" VerticalAlignment="Center"/></Grid>
+                </Button>
+            </Grid>
+            <Border Grid.Row="3" Background="{StaticResource Surface}" BorderBrush="#2A2B31" BorderThickness="1" CornerRadius="12" Padding="0,18,0,0">
+                <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                    <DockPanel Margin="18,0,18,16"><Border DockPanel.Dock="Right" Background="{StaticResource AccentSurface}" CornerRadius="6" Padding="9,5" HorizontalAlignment="Right"><TextBlock x:Name="CountText" Text="0 konton" Foreground="{StaticResource Accent}" FontSize="11"/></Border><StackPanel><TextBlock Text="Konton i backupen" FontSize="17" FontWeight="SemiBold"/><TextBlock Text="Alla stödda konton i den valda profilen följer med." Foreground="{StaticResource Muted}" FontSize="11" Margin="0,5,0,0"/></StackPanel></DockPanel>
+                    <DataGrid x:Name="AccountsGrid" Grid.Row="1" AutomationProperties.Name="Konton som följer med i backupen">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="KONTO" Binding="{Binding Name}" Width="1.1*"/>
+                            <DataGridTextColumn Header="E-POSTADRESS" Binding="{Binding Email}" Width="1.4*"/>
+                            <DataGridTemplateColumn Header="TYP" Width="78"><DataGridTemplateColumn.CellTemplate><DataTemplate><TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource Accent}"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Text" Value="{Binding Type}"/><Style.Triggers><DataTrigger Binding="{Binding Type}" Value="imap"><Setter Property="Text" Value="IMAP"/></DataTrigger><DataTrigger Binding="{Binding Type}" Value="pop3"><Setter Property="Text" Value="POP3"/></DataTrigger><DataTrigger Binding="{Binding Type}" Value="none"><Setter Property="Text" Value="Lokalt"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+                            <DataGridTextColumn Header="INKOMMANDE" Binding="{Binding Incoming}" Width="*"/>
+                            <DataGridTextColumn Header="UTGÅENDE" Binding="{Binding Outgoing}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False">
+                        <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasItems, ElementName=AccountsGrid}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></StackPanel.Style>
+                        <TextBlock Text="Dina konton visas här" FontSize="16" Foreground="#C5C4CD" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Välj en profil med Thunderbird stängt." Foreground="{StaticResource Muted}" FontSize="12" Margin="0,7,0,0"/>
+                    </StackPanel>
+                    <Border Grid.Row="2" BorderBrush="#292A30" BorderThickness="0,1,0,0" Padding="18,12"><TextBlock Text="Endast kontoinställningar och inloggningar. E-post och bilagor ingår inte." Foreground="#858692" FontSize="11" TextWrapping="Wrap"/></Border>
+                </Grid>
+            </Border>
+            <StackPanel Grid.Row="4" Margin="0,16,0,14">
+                <Button x:Name="LaunchButton" Style="{StaticResource PrimaryButton}" Content="Öppna återställd profil →" Click="Launch_Click" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+                <TextBlock Text="Stäng Thunderbird före backup och återställning. OAuth kan kräva ny inloggning." Foreground="{StaticResource Muted}" FontSize="11" TextWrapping="Wrap"/>
+                <TextBlock Text="POP3: lokala meddelanden ingår inte. Primary Password behålls." Foreground="#B6A286" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap"/>
+            </StackPanel>
+            <Border Grid.Row="5" Background="{StaticResource Surface}" BorderBrush="#2A2B31" BorderThickness="1" CornerRadius="9" Padding="14,11">
+                <StackPanel><ProgressBar x:Name="Progress" Height="3" IsIndeterminate="True" Visibility="Collapsed" Margin="0,0,0,10" Foreground="{StaticResource Accent}" Background="#303038" BorderThickness="0"/>
+                    <TextBlock x:Name="StatusText" Text="Redo. Välj en profil för att börja." TextWrapping="Wrap" Foreground="#C5C4CD" FontSize="12" MaxHeight="70"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
 </Window>

@@ -17,7 +17,7 @@ public static class Archive
     private const int HeaderSize = 40;
     private static byte[] Key(string password, byte[] salt)
     {
-        if (password.Length < 12 || password.Length > 1024) throw new ArgumentException("Backuplösenordet måste vara 12–1024 tecken.");
+        if (password.Length < 1 || password.Length > 1024) throw new ArgumentException("Backuplösenordet måste vara 1–1024 tecken.");
         byte[] bytes = Encoding.UTF8.GetBytes(password);
         try
         {
@@ -26,8 +26,11 @@ public static class Archive
         }
         finally { CryptographicOperations.ZeroMemory(bytes); }
     }
-    public static byte[] Encrypt(AccountArchive archive, string password)
+    public static byte[] Encrypt(AccountArchive archive, string password, bool allowShortPassword = false)
     {
+        int minimum = allowShortPassword ? 1 : 12;
+        if (password.Length < minimum || password.Length > 1024)
+            throw new ArgumentException($"Backuplösenordet måste vara {minimum}–1024 tecken. Kortare lösenord kräver ett aktivt val.");
         byte[] plain = JsonSerializer.SerializeToUtf8Bytes(archive);
         if (plain.Length > MaxBytes) { CryptographicOperations.ZeroMemory(plain); throw new InvalidDataException("Backupen är för stor."); }
         byte[] header = new byte[HeaderSize]; Magic.CopyTo(header, 0);

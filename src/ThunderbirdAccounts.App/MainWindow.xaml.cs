@@ -13,12 +13,34 @@ public partial class MainWindow : Window
     private string? executable;
     private string? restoredPath;
     private bool busy;
-    public MainWindow() { InitializeComponent(); Loaded += (_, _) => Refresh(); }
+    public MainWindow() : this(false) { }
+    internal MainWindow(bool preview)
+    {
+        InitializeComponent(); SourceInitialized += (_, _) => WindowTheme.Apply(this);
+        if (!preview) Loaded += (_, _) => Refresh();
+        else
+        {
+            // Synthetic data for Windows UI verification; no user profile is read in this mode.
+            var profiles = new[] { new Profile("Min Thunderbird-profil", @"C:\Users\Test\AppData\Roaming\Thunderbird\Profiles\default-release", true), new Profile("Arbetsprofil", @"D:\Thunderbird\Arbetsprofil", false) };
+            busy = true; ProfilesBox.ItemsSource = profiles; ProfilesBox.SelectedIndex = 0; busy = false;
+            AccountsGrid.ItemsSource = new[]
+            {
+                new MailAccount("account1", "Privat", "anna@example.org", "imap", "imap.example.org:993", "smtp.example.org:465"),
+                new MailAccount("account2", "Arbete", "anna@company.example", "imap", "outlook.office365.com:993", "smtp.office365.com:587"),
+                new MailAccount("account3", "Familjen", "familj@example.org", "imap", "imap.example.org:993", "smtp.example.org:587"),
+                new MailAccount("account4", "Arkivkonto", "arkiv@example.org", "pop3", "pop.example.org:995", "smtp.example.org:465"),
+                new MailAccount("account5", "Lokala mappar", "", "none", "Local Folders", "")
+            };
+            CountText.Text = "5 konton";
+            InstallationText.Text = @"Thunderbird • C:\Program Files\Mozilla Thunderbird\thunderbird.exe";
+            Status("Profilen har lästs. Alla stödda konton följer med i backupen.");
+        }
+    }
     private void Status(string text, bool error = false)
-    { StatusText.Text = text; StatusText.Foreground = new System.Windows.Media.SolidColorBrush(error ? System.Windows.Media.Color.FromRgb(255, 166, 151) : System.Windows.Media.Color.FromRgb(189, 208, 225)); }
+    { StatusText.Text = text; StatusText.Foreground = new System.Windows.Media.SolidColorBrush(error ? System.Windows.Media.Color.FromRgb(255, 166, 151) : System.Windows.Media.Color.FromRgb(197, 196, 205)); }
     private void SetBusy(bool value)
     {
-        busy = value; BackupButton.IsEnabled = !value; RestoreButton.IsEnabled = !value;
+        busy = value; ToolsPanel.IsEnabled = !value; BackupButton.IsEnabled = !value; RestoreButton.IsEnabled = !value;
         ProfilesBox.IsEnabled = !value; LaunchButton.IsEnabled = !value;
         Progress.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
     }
@@ -73,8 +95,9 @@ public partial class MainWindow : Window
         if (File.Exists(save.FileName)) { Status("Välj ett nytt filnamn. Befintliga backuper skrivs inte över.", true); return; }
         var password = new PasswordDialog(this, true);
         if (password.ShowDialog() != true) { password.Clear(); return; }
+        bool allowShortPassword = password.AllowsShortPassword;
         string secret = password.Secret; password.Clear(); SetBusy(true); Status("Skapar och krypterar kontobackup…");
-        try { await Task.Run(() => service.Backup(profile, ProfileDiscovery.Version(executable), save.FileName, secret)); Status("Backup skapad: " + save.FileName + ". Förvara lösenordet separat och provåterställ före ominstallation."); }
+        try { await Task.Run(() => service.Backup(profile, ProfileDiscovery.Version(executable), save.FileName, secret, allowShortPassword)); Status("Backup skapad: " + save.FileName + ". Förvara lösenordet separat och provåterställ före ominstallation."); }
         catch (Exception ex) { Status(ex.Message, true); }
         finally { secret = ""; SetBusy(false); }
     }
@@ -96,8 +119,8 @@ public partial class MainWindow : Window
             if (from > 0 && to > 0 && from > to) throw new InvalidDataException("Backupen kommer från en nyare Thunderbird-version. Uppdatera Thunderbird först.");
             var accounts = AccountSettings.Read(archive.Preferences);
             string pop = accounts.Any(a => a.Type == "pop3") ? "\n\nPOP3: lokal e-post saknas i backupen. Servermeddelanden kan vara borttagna. Automatisk hämtning stängs av och lämna på server aktiveras." : "";
-            var decision = MessageBox.Show(this, $"Återställ {accounts.Count} konton från {archive.ProfileName}?\n\nEn ny profil skapas. Befintliga profiler bevaras. Starta därefter med knappen Öppna återställd profil.\n\nPrimary Password behövs fortfarande om det använts. OAuth kan kräva ny autentisering. Externa signaturfiler och OpenPGP/S/MIME-nycklar ingår inte. Automatisk inloggning vid start är avstängd; hämta e-post när du kontrollerat inställningarna.{pop}", "Granska återställning", MessageBoxButton.OKCancel, MessageBoxImage.Information);
-            if (decision != MessageBoxResult.OK) { Status("Återställningen avbröts."); return; }
+            bool decision = ConfirmationDialog.Confirm(this, $"Återställ {accounts.Count} konton från {archive.ProfileName}?\n\nEn ny profil skapas. Befintliga profiler bevaras. Starta därefter med knappen Öppna återställd profil.\n\nPrimary Password behövs fortfarande om det använts. OAuth kan kräva ny autentisering. Externa signaturfiler och OpenPGP/S/MIME-nycklar ingår inte. Automatisk inloggning vid start är avstängd; hämta e-post när du kontrollerat inställningarna.{pop}");
+            if (!decision) { Status("Återställningen avbröts."); return; }
             Status("Återställer konton till en separat profil…");
             var result = await Task.Run(() => service.Restore(archive, ProfileDiscovery.ThunderbirdRoot));
             restoredPath = result.ProfilePath; LaunchButton.Visibility = Visibility.Visible;

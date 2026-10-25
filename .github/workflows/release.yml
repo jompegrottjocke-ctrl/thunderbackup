@@ -33,7 +33,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           @'
-          Första versionen av Thunderbird Account Backup & Restore.
+          Thunderbird Account Backup & Restore.
+
+          Nytt i 0.2.0: enhetligt mörkt gränssnitt och valbart kortare backuplösenord. Minst 12 tecken rekommenderas. Kortare lösenord kräver 0.2.0 eller senare vid återställning.
 
           Packa upp Windows x64-paketet och kör exe-filen. Programmet kräver ingen separat .NET-installation.
 

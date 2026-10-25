@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ThunderbirdAccounts.App;
 
@@ -7,27 +8,68 @@ internal sealed class PasswordDialog : Window
 {
     private readonly PasswordBox password = new();
     private readonly PasswordBox confirmation = new();
+    private readonly CheckBox allowShort = new();
     public string Secret => password.Password;
+    public bool AllowsShortPassword => allowShort.IsChecked == true;
+
     public PasswordDialog(Window owner, bool create)
     {
-        Owner = owner; Title = create ? "Skydda din backup" : "Öppna backup";
-        Width = 460; SizeToContent = SizeToContent.Height; ResizeMode = ResizeMode.NoResize;
+        Owner = owner; Title = create ? "Skapa krypterad backup" : "Öppna din backup";
+        Width = 510; SizeToContent = SizeToContent.Height; ResizeMode = ResizeMode.NoResize;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        var panel = new StackPanel { Margin = new Thickness(28) }; Content = panel;
-        panel.Children.Add(new TextBlock { Text = create ? "Välj ett starkt backuplösenord" : "Ange backuplösenordet", FontSize = 20, Margin = new Thickness(0, 0, 0, 12) });
-        panel.Children.Add(new TextBlock { Text = "Minst 12 tecken. Lösenordet kan inte återställas.\nDetta är inte Thunderbirds Primary Password.", TextWrapping = TextWrapping.Wrap });
+        SourceInitialized += (_, _) => WindowTheme.Apply(this);
+        var panel = new StackPanel { Margin = new Thickness(30) }; Content = panel;
+        panel.Children.Add(new TextBlock { Text = create ? "SKYDDA DINA KONTON" : "ÅTERSTÄLL DINA KONTON", Foreground = (Brush)FindResource("Accent"), FontSize = 10, FontWeight = FontWeights.SemiBold });
+        panel.Children.Add(new TextBlock { Text = create ? "En backup. Bara din." : "Välkommen tillbaka.", FontSize = 27, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 8, 0, 10) });
+        panel.Children.Add(new TextBlock
+        {
+            Text = create ? "Välj ett lösenord för backupfilen. Spara det separat; ett glömt lösenord kan inte återställas." : "Ange lösenordet som användes när backupen skapades.",
+            Foreground = (Brush)FindResource("Muted"), TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 24)
+        });
+        panel.Children.Add(new TextBlock { Text = "Backuplösenord", FontSize = 12, FontWeight = FontWeights.SemiBold });
         System.Windows.Automation.AutomationProperties.SetName(password, "Backuplösenord");
+        System.Windows.Automation.AutomationProperties.SetName(confirmation, "Bekräfta backuplösenord");
         panel.Children.Add(password);
-        if (create) { panel.Children.Add(new TextBlock { Text = "Bekräfta lösenord" }); panel.Children.Add(confirmation); }
-        var ok = new Button { Content = create ? "Kryptera backup" : "Lås upp", IsDefault = true };
+        if (create)
+        {
+            panel.Children.Add(new TextBlock { Text = "Bekräfta lösenord", FontSize = 12, FontWeight = FontWeights.SemiBold });
+            panel.Children.Add(confirmation);
+            allowShort.Content = "Tillåt ett kortare lösenord";
+            panel.Children.Add(allowShort);
+            var guidance = new TextBlock { FontSize = 12, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(24, 7, 0, 16) };
+            void UpdateGuidance()
+            {
+                guidance.Text = AllowsShortPassword
+                    ? "Minst 1 tecken. Ett kort lösenord är lättare att gissa. Vi rekommenderar minst 12 tecken."
+                    : "Minst 12 tecken rekommenderas. Aktivera valet ovan om du vill använda färre.";
+                guidance.Foreground = (Brush)FindResource(AllowsShortPassword ? "Accent" : "Muted");
+            }
+            allowShort.Checked += (_, _) => UpdateGuidance();
+            allowShort.Unchecked += (_, _) => UpdateGuidance();
+            UpdateGuidance(); panel.Children.Add(guidance);
+        }
+        panel.Children.Add(new TextBlock { Text = "Detta är inte Thunderbirds Primary Password.", Foreground = (Brush)FindResource("Muted"), FontSize = 11, Margin = new Thickness(0, 0, 0, 16) });
+        var error = new TextBlock { Foreground = new SolidColorBrush(Color.FromRgb(255, 166, 151)), TextWrapping = TextWrapping.Wrap, Visibility = Visibility.Collapsed, Margin = new Thickness(0, 0, 0, 16) };
+        panel.Children.Add(error);
+        var buttons = new Grid(); buttons.ColumnDefinitions.Add(new ColumnDefinition()); buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        var ok = new Button { Content = create ? "Skapa krypterad backup" : "Lås upp backup", IsDefault = true, Style = (Style)FindResource("PrimaryButton"), Margin = new Thickness(0, 0, 10, 0) };
         ok.Click += (_, _) =>
         {
-            if (password.Password.Length < 12 || password.Password.Length > 1024) { MessageBox.Show(this, "Använd 12–1024 tecken."); return; }
-            if (create && password.Password != confirmation.Password) { MessageBox.Show(this, "Lösenorden stämmer inte överens."); return; }
+            int minimum = create && !AllowsShortPassword ? 12 : 1;
+            if (password.Password.Length < minimum || password.Password.Length > 1024)
+            {
+                error.Text = $"Använd {minimum}–1024 tecken.";
+                error.Visibility = Visibility.Visible; password.Focus(); return;
+            }
+            if (create && password.Password != confirmation.Password)
+            {
+                error.Text = "Lösenorden stämmer inte överens.";
+                error.Visibility = Visibility.Visible; confirmation.Focus(); return;
+            }
             DialogResult = true;
         };
         var cancel = new Button { Content = "Avbryt", IsCancel = true };
-        var buttons = new StackPanel { Orientation = Orientation.Horizontal }; buttons.Children.Add(ok); buttons.Children.Add(cancel); panel.Children.Add(buttons);
+        buttons.Children.Add(ok); Grid.SetColumn(cancel, 1); buttons.Children.Add(cancel); panel.Children.Add(buttons);
         Loaded += (_, _) => password.Focus();
     }
     public void Clear() { password.Clear(); confirmation.Clear(); }

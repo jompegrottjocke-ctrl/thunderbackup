@@ -1,8 +1,8 @@
-# Thunderbird Account Backup & Restore — 0.1.0
+# Thunderbird Account Backup & Restore — 0.2.0
 
 En portabel Windows-app med mörkt WPF-gränssnitt. Säkerhetskopierar IMAP-/POP3-konton, identiteter, SMTP-inställningar och sparade inloggningar till en lösenordskrypterad `.tbaccounts`-fil. E-postmeddelanden, bilagor och lokala mappar kopieras inte.
 
-**Första versionen. Kompilerad för Windows x64; Windows-gränssnittet och en verklig Thunderbird-installation på Windows måste fortfarande acceptanstestas. Provåterställ innan du installerar om Windows.**
+**Första versionen. Kompilerad för Windows x64; Automatiska gränssnittstester renderar fönster och dialoger på Windows med syntetiska konton. En verklig Thunderbird-installation på Windows måste fortfarande acceptanstestas. Provåterställ innan du installerar om Windows.**
 
 ## Användning
 
@@ -25,7 +25,7 @@ Varje `.tbaccounts`-fil innehåller en vald profil med samtliga dess stödda kon
 - **Uppstart:** automatisk inloggning vid start stängs av för alla exporterade servrar. För IMAP behålls övriga normala synkroniseringsinställningar. Hämta mail när du granskat inställningarna; slå vid behov på automatisk hämtning i Thunderbird.
 - **OpenPGP/S/MIME:** konfigurerade nyckel-/certifikatidentiteter blockerar backup. Exportera nycklar med Thunderbirds egna verktyg; stöd för denna separata arbetsgång är inte implementerat här. Denna app exporterar inte OpenPGP-nyckelringar. `cert9.db` tas med om den finns, som del av NSS-miljön.
 - Externa signaturfiler kopieras inte; filsignaturer avaktiveras. Signaturtext som finns direkt i kontoinställningarna bevaras. Gamla lokala specialmapps-URI:er utelämnas så att Thunderbird kan skapa standardmappar i den nya profilen.
-- Adressböcker, kalender, tillägg, meddelandefilter, externa PKCS#11-moduler, smartkort och generella Thunderbird-inställningar omfattas inte. Tilläggsberoende kontotyper som Exchange/NNTP/RSS blockeras. Version 0.1 stöder IMAP, POP3 och lokala kontoinställningar.
+- Adressböcker, kalender, tillägg, meddelandefilter, externa PKCS#11-moduler, smartkort och generella Thunderbird-inställningar omfattas inte. Tilläggsberoende kontotyper som Exchange/NNTP/RSS blockeras. Version 0.2 stöder IMAP, POP3 och lokala kontoinställningar.
 - Profiler med symboliska länkar/junctions och databaser med kvarvarande journaler avvisas. Nätverksprofiler och godtyckliga framtida format stöds inte uttryckligen. En strukturellt giltig profil är inte ett löfte om framtida kompatibilitet.
 - Programmet gör inga nätverksanrop. Byggverktygen behöver nätverk för .NET-/NuGet-paket. Själva Thunderbird kontaktar naturligtvis mailservrar när du använder den.
 
@@ -64,4 +64,11 @@ Tester körs med en liten exekverbar testharness, inte `dotnet test`. Den return
 python3 tests/nss_roundtrip.py /path/to/dotnet tests/ThunderbirdAccounts.Tests/bin/Release/net10.0/ThunderbirdAccounts.Tests.dll
 ```
 
-Se [arkitektur och källor](docs/ARCHITECTURE.md) och [testprotokollet](docs/TESTING.md). GitHub Actions-konfiguration för Windows-bygge och tester finns med; den har inte körts från denna miljö.
+Se [arkitektur och källor](docs/ARCHITECTURE.md) och [testprotokollet](docs/TESTING.md). GitHub Actions kör Windows-bygge, regressionstester och WPF-gränssnittstester. Förhandsbilder från gränssnittstesterna finns i artefakten `ThunderbirdAccounts-ui-preview`.
+
+
+## Nytt i 0.2.0
+
+Enhetligt mörkt grafittema med lila accent, mörk profilväljare, egna tabell-/scroll-/checkbox-stilar, mörka appdialoger och mörk titelrad där Windows stöder det. De vanliga filväljarna tillhör Windows och följer dess inställningar.
+
+Kortare backuplösenord är ett aktivt val vid skapandet. Återställningsdialogen accepterar det lösenord som valdes, utan extra kryssruta. Krypteringsalgoritmer och filformat är oförändrade. Äldre backuper fungerar i 0.2.0; **0.1.0 kan inte öppna nya backuper med lösenord under 12 tecken**. Använd 0.2.0 eller senare för dem.

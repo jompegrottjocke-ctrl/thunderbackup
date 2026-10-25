@@ -55,10 +55,10 @@ public sealed class BackupService
         }
         catch (SqliteException) { throw new InvalidDataException("Skadad eller oläsbar SQLite-databas: " + Path.GetFileName(path)); }
     }
-    public void Backup(Profile profile, string version, string destination, string password)
+    public void Backup(Profile profile, string version, string destination, string password, bool allowShortPassword = false)
     {
         var archive = Capture(profile, version);
-        try { Archive.AtomicCreate(destination, Archive.Encrypt(archive, password)); }
+        try { Archive.AtomicCreate(destination, Archive.Encrypt(archive, password, allowShortPassword)); }
         finally { ClearFiles(archive); }
     }
     public static void ClearFiles(AccountArchive archive)
