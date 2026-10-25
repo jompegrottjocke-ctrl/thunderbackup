@@ -1,0 +1,441 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <data name="Overview" xml:space="preserve">
+    <value>Översikt</value>
+  </data>
+  <data name="TOOLS" xml:space="preserve">
+    <value>VERKTYG</value>
+  </data>
+  <data name="RefreshProfiles" xml:space="preserve">
+    <value>Uppdatera profiler</value>
+  </data>
+  <data name="ChooseProfileFolder" xml:space="preserve">
+    <value>Välj profilmapp…</value>
+  </data>
+  <data name="ChooseThunderbird" xml:space="preserve">
+    <value>Välj Thunderbird…</value>
+  </data>
+  <data name="LocalPrivateEncrypted" xml:space="preserve">
+    <value>Lokalt. Privat. Krypterat.</value>
+  </data>
+  <data name="YourAccountsStayWithYou" xml:space="preserve">
+    <value>Dina konton stannar hos dig.</value>
+  </data>
+  <data name="YOURACCOUNTBACKUP" xml:space="preserve">
+    <value>DIN KONTOBACKUP</value>
+  </data>
+  <data name="ReadyForAFreshStart" xml:space="preserve">
+    <value>Redo för en ny start.</value>
+  </data>
+  <data name="AllYourAccountsSafelyStoredRestoreThemWhenYou" xml:space="preserve">
+    <value>Alla dina konton, säkert samlade. Återställ dem när du behöver.</value>
+  </data>
+  <data name="ThunderbirdProfile" xml:space="preserve">
+    <value>Thunderbird-profil</value>
+  </data>
+  <data name="ChooseAccountSource" xml:space="preserve">
+    <value>Välj kontokälla</value>
+  </data>
+  <data name="BackupAccountsCreateBackup" xml:space="preserve">
+    <value>Backup Accounts – skapa backup</value>
+  </data>
+  <data name="CreateBackup" xml:space="preserve">
+    <value>Skapa backup</value>
+  </data>
+  <data name="SaveAccountsAndLogins" xml:space="preserve">
+    <value>Spara konton och inloggningar</value>
+  </data>
+  <data name="RestoreAccountsRestoreBackup" xml:space="preserve">
+    <value>Restore Accounts – återställ backup</value>
+  </data>
+  <data name="RestoreBackup" xml:space="preserve">
+    <value>Återställ backup</value>
+  </data>
+  <data name="BringYourAccountsBack" xml:space="preserve">
+    <value>Flytta tillbaka dina konton</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>0 konton</value>
+  </data>
+  <data name="AccountsInTheBackup" xml:space="preserve">
+    <value>Konton i backupen</value>
+  </data>
+  <data name="AllSupportedAccountsInTheSelectedProfileAreIncluded" xml:space="preserve">
+    <value>Alla stödda konton i den valda profilen följer med.</value>
+  </data>
+  <data name="AccountsIncludedInTheBackup" xml:space="preserve">
+    <value>Konton som följer med i backupen</value>
+  </data>
+  <data name="ACCOUNT" xml:space="preserve">
+    <value>KONTO</value>
+  </data>
+  <data name="EMAILADDRESS" xml:space="preserve">
+    <value>E-POSTADRESS</value>
+  </data>
+  <data name="TYPE" xml:space="preserve">
+    <value>TYP</value>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>Lokalt</value>
+  </data>
+  <data name="INCOMING" xml:space="preserve">
+    <value>INKOMMANDE</value>
+  </data>
+  <data name="OUTGOING" xml:space="preserve">
+    <value>UTGÅENDE</value>
+  </data>
+  <data name="YourAccountsAppearHere" xml:space="preserve">
+    <value>Dina konton visas här</value>
+  </data>
+  <data name="SelectAProfileWithThunderbirdClosed" xml:space="preserve">
+    <value>Välj en profil med Thunderbird stängt.</value>
+  </data>
+  <data name="AccountSettingsAndLoginsOnlyEmailAndAttachmentsAre" xml:space="preserve">
+    <value>Endast kontoinställningar och inloggningar. E-post och bilagor ingår inte.</value>
+  </data>
+  <data name="OpenRestoredProfile" xml:space="preserve">
+    <value>Öppna återställd profil →</value>
+  </data>
+  <data name="CloseThunderbirdBeforeBackupAndRestoreOAuthMayRequire" xml:space="preserve">
+    <value>Stäng Thunderbird före backup och återställning. OAuth kan kräva ny inloggning.</value>
+  </data>
+  <data name="POPLocalMessagesAreNotIncludedPrimaryPasswordIs" xml:space="preserve">
+    <value>POP3: lokala meddelanden ingår inte. Primary Password behålls.</value>
+  </data>
+  <data name="ReadySelectAProfileToBegin" xml:space="preserve">
+    <value>Redo. Välj en profil för att börja.</value>
+  </data>
+  <data name="CreateEncryptedBackup" xml:space="preserve">
+    <value>Skapa krypterad backup</value>
+  </data>
+  <data name="OpenYourBackup" xml:space="preserve">
+    <value>Öppna din backup</value>
+  </data>
+  <data name="PROTECTYOURACCOUNTS" xml:space="preserve">
+    <value>SKYDDA DINA KONTON</value>
+  </data>
+  <data name="RestoreAccountsEyebrow" xml:space="preserve">
+    <value>ÅTERSTÄLL DINA KONTON</value>
+  </data>
+  <data name="OneBackupYoursAlone" xml:space="preserve">
+    <value>En backup. Bara din.</value>
+  </data>
+  <data name="WelcomeBack" xml:space="preserve">
+    <value>Välkommen tillbaka.</value>
+  </data>
+  <data name="ChooseAPasswordForTheBackupFileKeepIt" xml:space="preserve">
+    <value>Välj ett lösenord för backupfilen. Spara det separat; ett glömt lösenord kan inte återställas.</value>
+  </data>
+  <data name="EnterThePasswordUsedWhenTheBackupWasCreated" xml:space="preserve">
+    <value>Ange lösenordet som användes när backupen skapades.</value>
+  </data>
+  <data name="BackupPassword" xml:space="preserve">
+    <value>Backuplösenord</value>
+  </data>
+  <data name="ConfirmBackupPassword" xml:space="preserve">
+    <value>Bekräfta backuplösenord</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Bekräfta lösenord</value>
+  </data>
+  <data name="AllowAShorterPassword" xml:space="preserve">
+    <value>Tillåt ett kortare lösenord</value>
+  </data>
+  <data name="AtLeastCharacterAShortPasswordIsEasierTo" xml:space="preserve">
+    <value>Minst 1 tecken. Ett kort lösenord är lättare att gissa. Vi rekommenderar minst 12 tecken.</value>
+  </data>
+  <data name="AtLeastCharactersRecommendedEnableTheOptionAboveTo" xml:space="preserve">
+    <value>Minst 12 tecken rekommenderas. Aktivera valet ovan om du vill använda färre.</value>
+  </data>
+  <data name="ThisIsNotThunderbirdSPrimaryPassword" xml:space="preserve">
+    <value>Detta är inte Thunderbirds Primary Password.</value>
+  </data>
+  <data name="UnlockBackup" xml:space="preserve">
+    <value>Lås upp backup</value>
+  </data>
+  <data name="UseCharacters" xml:space="preserve">
+    <value>Använd {0}–1024 tecken.</value>
+  </data>
+  <data name="ThePasswordsDoNotMatch" xml:space="preserve">
+    <value>Lösenorden stämmer inte överens.</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Avbryt</value>
+  </data>
+  <data name="ReviewRestore" xml:space="preserve">
+    <value>Granska återställning</value>
+  </data>
+  <data name="RestoreYourAccounts" xml:space="preserve">
+    <value>Återställ dina konton</value>
+  </data>
+  <data name="RestoreToNewProfile" xml:space="preserve">
+    <value>Återställ till ny profil</value>
+  </data>
+  <data name="MyThunderbirdProfile" xml:space="preserve">
+    <value>Min Thunderbird-profil</value>
+  </data>
+  <data name="WorkProfile" xml:space="preserve">
+    <value>Arbetsprofil</value>
+  </data>
+  <data name="Personal" xml:space="preserve">
+    <value>Privat</value>
+  </data>
+  <data name="Work" xml:space="preserve">
+    <value>Arbete</value>
+  </data>
+  <data name="Family" xml:space="preserve">
+    <value>Familjen</value>
+  </data>
+  <data name="ArchiveAccount" xml:space="preserve">
+    <value>Arkivkonto</value>
+  </data>
+  <data name="LocalFolders" xml:space="preserve">
+    <value>Lokala mappar</value>
+  </data>
+  <data name="PreviewAccountCount" xml:space="preserve">
+    <value>5 konton</value>
+  </data>
+  <data name="ProfileLoadedAllSupportedAccountsAreIncludedInThe" xml:space="preserve">
+    <value>Profilen har lästs. Alla stödda konton följer med i backupen.</value>
+  </data>
+  <data name="NoRegisteredProfileFoundChooseAProfileFolderOr" xml:space="preserve">
+    <value>Ingen registrerad profil hittades. Välj profilmapp eller återställ en backup.</value>
+  </data>
+  <data name="ThunderbirdWasNotFoundAutomaticallyChooseThunderbirdExeTo" xml:space="preserve">
+    <value>Thunderbird hittades inte automatiskt. Välj thunderbird.exe för versionskontroll och start.</value>
+  </data>
+  <data name="ChooseTheThunderbirdProfileContainingPrefsJs" xml:space="preserve">
+    <value>Välj Thunderbird-profilen som innehåller prefs.js</value>
+  </data>
+  <data name="ChooseThunderbirdExe" xml:space="preserve">
+    <value>Välj thunderbird.exe</value>
+  </data>
+  <data name="AccountCount" xml:space="preserve">
+    <value>{0} konton</value>
+  </data>
+  <data name="ProfileLoadedTheBackupDoesNotIncludeEmailMessages" xml:space="preserve">
+    <value>Profilen har lästs. Backupen inkluderar inga e-postmeddelanden.</value>
+  </data>
+  <data name="SelectAProfileFirst" xml:space="preserve">
+    <value>Välj en profil först.</value>
+  </data>
+  <data name="ChooseANewFileNameExistingBackupsAreNever" xml:space="preserve">
+    <value>Välj ett nytt filnamn. Befintliga backuper skrivs inte över.</value>
+  </data>
+  <data name="CreatingAndEncryptingAccountBackup" xml:space="preserve">
+    <value>Skapar och krypterar kontobackup…</value>
+  </data>
+  <data name="BackupCreated" xml:space="preserve">
+    <value>Backup skapad: </value>
+  </data>
+  <data name="KeepThePasswordSeparatelyAndTestRestoringBeforeReinstalling" xml:space="preserve">
+    <value>. Förvara lösenordet separat och provåterställ före ominstallation.</value>
+  </data>
+  <data name="InstallThunderbirdOrChooseThunderbirdExeFirst" xml:space="preserve">
+    <value>Installera Thunderbird eller välj thunderbird.exe först.</value>
+  </data>
+  <data name="CheckingBackupIntegrity" xml:space="preserve">
+    <value>Kontrollerar backupens integritet…</value>
+  </data>
+  <data name="TheBackupComesFromANewerThunderbirdVersionUpdate" xml:space="preserve">
+    <value>Backupen kommer från en nyare Thunderbird-version. Uppdatera Thunderbird först.</value>
+  </data>
+  <data name="RestoreCancelled" xml:space="preserve">
+    <value>Återställningen avbröts.</value>
+  </data>
+  <data name="RestoringAccountsToASeparateProfile" xml:space="preserve">
+    <value>Återställer konton till en separat profil…</value>
+  </data>
+  <data name="TheBackupHasAlreadyBeenRestoredNoDuplicatesWere" xml:space="preserve">
+    <value>Backupen har redan återställts; inga dubbletter skapades. </value>
+  </data>
+  <data name="AccountsRestored" xml:space="preserve">
+    <value>Kontona har återställts. </value>
+  </data>
+  <data name="OpenTheProfileUsingTheButtonAboveThenChoose" xml:space="preserve">
+    <value>Öppna profilen med knappen ovan. Välj sedan standardprofil via about:profiles i Thunderbird. </value>
+  </data>
+  <data name="PreviousProfileRegistry" xml:space="preserve">
+    <value>Tidigare profilregister: </value>
+  </data>
+  <data name="ThunderbirdHasStartedWithTheRestoredProfile" xml:space="preserve">
+    <value>Thunderbird har startats med den återställda profilen.</value>
+  </data>
+  <data name="WaitForTheCurrentFileOperationToFinish" xml:space="preserve">
+    <value>Vänta tills pågående filarbete är klart.</value>
+  </data>
+  <data name="InvalidAccountID" xml:space="preserve">
+    <value>Ogiltigt konto-ID.</value>
+  </data>
+  <data name="AccountHasNoServer" xml:space="preserve">
+    <value>Kontot {0} saknar server.</value>
+  </data>
+  <data name="AccountTypeIsNotSupportedIMAPPOPLocalFolders" xml:space="preserve">
+    <value>Kontotypen '{0}' stöds inte i version 0.1 (endast IMAP/POP3/lokala mappar).</value>
+  </data>
+  <data name="InvalidIdentity" xml:space="preserve">
+    <value>Ogiltig identitet.</value>
+  </data>
+  <data name="EmailServerAddressIsMissing" xml:space="preserve">
+    <value>E-postserverns adress saknas.</value>
+  </data>
+  <data name="TheProfileContainsNoConfiguredAccounts" xml:space="preserve">
+    <value>Profilen innehåller inga konfigurerade konton.</value>
+  </data>
+  <data name="DuplicateAccountIDs" xml:space="preserve">
+    <value>Dubbla konto-ID:n.</value>
+  </data>
+  <data name="InvalidLocalServer" xml:space="preserve">
+    <value>Ogiltig lokal server.</value>
+  </data>
+  <data name="OpenPGPSMIMEIdentityDetectedExportKeysSeparatelyThis" xml:space="preserve">
+    <value>OpenPGP/S/MIME-identitet upptäckt. Exportera nycklar separat; denna version avbryter för att undvika ofullständig återställning.</value>
+  </data>
+  <data name="InvalidSMTPID" xml:space="preserve">
+    <value>Ogiltigt SMTP-ID.</value>
+  </data>
+  <data name="InvalidServerType" xml:space="preserve">
+    <value>Ogiltig servertyp.</value>
+  </data>
+  <data name="POPRefersToAMissingAccount" xml:space="preserve">
+    <value>POP3 hänvisar till ett saknat konto.</value>
+  </data>
+  <data name="TheDefaultAccountIsMissing" xml:space="preserve">
+    <value>Standardkontot saknas.</value>
+  </data>
+  <data name="InvalidPreferenceValue" xml:space="preserve">
+    <value>Ogiltigt inställningsvärde.</value>
+  </data>
+  <data name="DefaultProfile" xml:space="preserve">
+    <value> • standardprofil</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Okänd</value>
+  </data>
+  <data name="DuplicateSectionsInProfilesIni" xml:space="preserve">
+    <value>Dubbla sektioner i profiles.ini.</value>
+  </data>
+  <data name="InvalidProfilesIni" xml:space="preserve">
+    <value>Ogiltig profiles.ini.</value>
+  </data>
+  <data name="DuplicateValuesInProfilesIni" xml:space="preserve">
+    <value>Dubbla värden i profiles.ini.</value>
+  </data>
+  <data name="SymbolicLinksJunctionsAreNotSupported" xml:space="preserve">
+    <value>Symboliska länkar/junctions stöds inte: </value>
+  </data>
+  <data name="CloseThunderbirdCompletelyBeforeContinuing" xml:space="preserve">
+    <value>Stäng Thunderbird helt innan du fortsätter.</value>
+  </data>
+  <data name="TheProfileFolderIsMissing" xml:space="preserve">
+    <value>Profilmappen saknas.</value>
+  </data>
+  <data name="TheProfileIsLockedCloseThunderbirdAndTryAgain" xml:space="preserve">
+    <value>Profilen är låst. Stäng Thunderbird och försök igen.</value>
+  </data>
+  <data name="ProfileFileIsTooLarge" xml:space="preserve">
+    <value>Profilfilen är för stor: </value>
+  </data>
+  <data name="LegacyPasswordFormatDetectedUpgradeTheProfileInThunderbird" xml:space="preserve">
+    <value>Äldre lösenordsformat upptäckt. Uppgradera profilen i Thunderbird och avsluta Thunderbird innan backup.</value>
+  </data>
+  <data name="ADatabaseJournalRemainsStartAndCloseThunderbirdNormally" xml:space="preserve">
+    <value>Databasjournal finns kvar. Starta och stäng Thunderbird normalt innan backup: </value>
+  </data>
+  <data name="DatabaseIntegrityCheckFailed" xml:space="preserve">
+    <value>Databasens integritetskontroll misslyckades: </value>
+  </data>
+  <data name="CorruptOrUnreadableSQLiteDatabase" xml:space="preserve">
+    <value>Skadad eller oläsbar SQLite-databas: </value>
+  </data>
+  <data name="UnsupportedBackupSchema" xml:space="preserve">
+    <value>Backupens schema stöds inte.</value>
+  </data>
+  <data name="TooManyEntriesInTheBackup" xml:space="preserve">
+    <value>För många poster i backupen.</value>
+  </data>
+  <data name="TheBackupContainsDisallowedPreferencesOrUnsafeProfilePaths" xml:space="preserve">
+    <value>Backupen innehåller otillåtna inställningar eller osäkra profilsökvägar.</value>
+  </data>
+  <data name="TheBackupContainsADisallowedFile" xml:space="preserve">
+    <value>Backupen innehåller en otillåten fil.</value>
+  </data>
+  <data name="CorruptOrLegacyKeyCertificateDatabase" xml:space="preserve">
+    <value>Skadad eller äldre nyckel-/certifikatdatabas: </value>
+  </data>
+  <data name="LoginsJsonExistsButKeyDbIsMissingPasswords" xml:space="preserve">
+    <value>logins.json finns men key4.db saknas. Lösenorden kan inte återställas säkert.</value>
+  </data>
+  <data name="UnknownLoginsJsonFormat" xml:space="preserve">
+    <value>Okänt logins.json-format.</value>
+  </data>
+  <data name="CorruptLoginEntry" xml:space="preserve">
+    <value>Skadad inloggningspost.</value>
+  </data>
+  <data name="LoginsJsonIsCorrupt" xml:space="preserve">
+    <value>logins.json är skadad.</value>
+  </data>
+  <data name="TheRestoreFolderAlreadyExistsAndWillNotBe" xml:space="preserve">
+    <value>Återställningsmappen finns redan och skrivs inte över.</value>
+  </data>
+  <data name="ProfilesIniChangedDuringTheOperationTryAgain" xml:space="preserve">
+    <value>profiles.ini ändrades under arbetet. Försök igen.</value>
+  </data>
+  <data name="TheBackupPasswordMustBeCharacters" xml:space="preserve">
+    <value>Backuplösenordet måste vara 1–1024 tecken.</value>
+  </data>
+  <data name="TheBackupPasswordMustBeCharactersShorterPasswordsRequire" xml:space="preserve">
+    <value>Backuplösenordet måste vara {0}–1024 tecken. Kortare lösenord kräver ett aktivt val.</value>
+  </data>
+  <data name="TheBackupIsTooLarge" xml:space="preserve">
+    <value>Backupen är för stor.</value>
+  </data>
+  <data name="TheFileIsNotAVersionTbaccountsBackup" xml:space="preserve">
+    <value>Filen är inte en .tbaccounts-backup i format version 1.</value>
+  </data>
+  <data name="InvalidBackupLength" xml:space="preserve">
+    <value>Backupens längd är ogiltig.</value>
+  </data>
+  <data name="IncorrectBackupPasswordOrCorruptTamperedBackupNothingHas" xml:space="preserve">
+    <value>Fel backuplösenord eller skadad/manipulerad backup. Ingenting har återställts.</value>
+  </data>
+  <data name="EmptyBackup" xml:space="preserve">
+    <value>Tom backup.</value>
+  </data>
+  <data name="TheBackupFileIsTooLarge" xml:space="preserve">
+    <value>Backupfilen är för stor.</value>
+  </data>
+  <data name="PrefsJsIsTooLarge" xml:space="preserve">
+    <value>prefs.js är för stor.</value>
+  </data>
+  <data name="InvalidPrefsJsNearCharacterNoScriptsAreExecuted" xml:space="preserve">
+    <value>Ogiltig prefs.js nära tecken {0}. Inga skript körs.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Språk</value>
+  </data>
+  <data name="Automatic" xml:space="preserve">
+    <value>Automatiskt</value>
+  </data>
+  <data name="TheLanguageCouldNotBeSavedYourSelectionApplies" xml:space="preserve">
+    <value>Språket kunde inte sparas. Valet gäller tills appen stängs.</value>
+  </data>
+  <data name="POPLocalEmailIsNotIncludedInTheBackup" xml:space="preserve">
+    <value>
+
+POP3: lokal e-post saknas i backupen. Servermeddelanden kan vara borttagna. Automatisk hämtning stängs av och lämna på server aktiveras.</value>
+  </data>
+  <data name="RestoreAccountsFromANewProfileWillBeCreated" xml:space="preserve">
+    <value>Återställ {0} konton från {1}?
+
+En ny profil skapas. Befintliga profiler bevaras. Starta därefter med knappen Öppna återställd profil.
+
+Primary Password behövs fortfarande om det använts. OAuth kan kräva ny autentisering. Externa signaturfiler och OpenPGP/S/MIME-nycklar ingår inte. Automatisk inloggning vid start är avstängd; hämta e-post när du kontrollerat inställningarna.{2}</value>
+  </data>
+</root>

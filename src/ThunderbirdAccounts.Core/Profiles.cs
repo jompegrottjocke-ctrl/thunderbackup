@@ -5,7 +5,7 @@ namespace ThunderbirdAccounts.Core;
 
 public sealed record Profile(string Name, string Path, bool IsDefault)
 {
-    public override string ToString() => Name + (IsDefault ? " • standardprofil" : "") + " — " + Path;
+    public override string ToString() => Name + (IsDefault ? TextCatalog.Get("DefaultProfile") : "") + " — " + Path;
 }
 
 public static class ProfileDiscovery
@@ -42,7 +42,7 @@ public static class ProfileDiscovery
             candidates.Add(System.IO.Path.Combine(Environment.GetFolderPath(folder), "Mozilla Thunderbird", "thunderbird.exe"));
         return candidates.FirstOrDefault(File.Exists);
     }
-    public static string Version(string? executable) => executable is null ? "Okänd" : FileVersionInfo.GetVersionInfo(executable).ProductVersion ?? "Okänd";
+    public static string Version(string? executable) => executable is null ? TextCatalog.Get("Unknown") : FileVersionInfo.GetVersionInfo(executable).ProductVersion ?? TextCatalog.Get("Unknown");
 }
 
 internal static class Ini
@@ -57,13 +57,13 @@ internal static class Ini
             if (line.Length == 0 || line.StartsWith(';') || line.StartsWith('#')) continue;
             if (line.StartsWith('[') && line.EndsWith(']'))
             {
-                current = new(StringComparer.Ordinal); if (!result.TryAdd(line[1..^1], current)) throw new InvalidDataException("Dubbla sektioner i profiles.ini.");
+                current = new(StringComparer.Ordinal); if (!result.TryAdd(line[1..^1], current)) throw new InvalidDataException(TextCatalog.Get("DuplicateSectionsInProfilesIni"));
             }
             else
             {
                 int equal = line.IndexOf('=');
-                if (current is null || equal <= 0) throw new InvalidDataException("Ogiltig profiles.ini.");
-                if (!current.TryAdd(line[..equal].Trim(), line[(equal + 1)..].Trim())) throw new InvalidDataException("Dubbla värden i profiles.ini.");
+                if (current is null || equal <= 0) throw new InvalidDataException(TextCatalog.Get("InvalidProfilesIni"));
+                if (!current.TryAdd(line[..equal].Trim(), line[(equal + 1)..].Trim())) throw new InvalidDataException(TextCatalog.Get("DuplicateValuesInProfilesIni"));
             }
         }
         return result;
@@ -79,28 +79,28 @@ public static class SafeFiles
         while (current is not null)
         {
             if ((File.Exists(current) || Directory.Exists(current)) && (File.GetAttributes(current) & FileAttributes.ReparsePoint) != 0)
-                throw new IOException("Symboliska länkar/junctions stöds inte: " + current);
+                throw new IOException(TextCatalog.Get("SymbolicLinksJunctionsAreNotSupported") + current);
             current = System.IO.Path.GetDirectoryName(current);
         }
     }
     public static void EnsureStopped()
     {
         foreach (var process in Process.GetProcessesByName("thunderbird"))
-        { using (process) { throw new IOException("Stäng Thunderbird helt innan du fortsätter."); } }
+        { using (process) { throw new IOException(TextCatalog.Get("CloseThunderbirdCompletelyBeforeContinuing")); } }
     }
     public static IDisposable LockProfile(string profile)
     {
         EnsureStopped(); NoLinks(profile);
-        if (!Directory.Exists(profile)) throw new DirectoryNotFoundException("Profilmappen saknas.");
+        if (!Directory.Exists(profile)) throw new DirectoryNotFoundException(TextCatalog.Get("TheProfileFolderIsMissing"));
         string file = System.IO.Path.Combine(profile, "parent.lock"); NoLinks(file);
         try { return new FileStream(file, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None); }
-        catch (IOException) { throw new IOException("Profilen är låst. Stäng Thunderbird och försök igen."); }
+        catch (IOException) { throw new IOException(TextCatalog.Get("TheProfileIsLockedCloseThunderbirdAndTryAgain")); }
     }
     public static byte[] Read(string path, int limit = 16 * 1024 * 1024)
     {
         NoLinks(path);
         using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-        if (file.Length > limit) throw new InvalidDataException("Profilfilen är för stor: " + System.IO.Path.GetFileName(path));
+        if (file.Length > limit) throw new InvalidDataException(TextCatalog.Get("ProfileFileIsTooLarge") + System.IO.Path.GetFileName(path));
         byte[] bytes = new byte[(int)file.Length]; file.ReadExactly(bytes); return bytes;
     }
 }

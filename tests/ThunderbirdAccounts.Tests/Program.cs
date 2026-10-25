@@ -16,6 +16,7 @@ if (args.Length == 3 && args[0] == "--nss-roundtrip")
 
 var tests = new (string, Action)[]
 {
+    ("Language selection, resources and persisted preference", Languages),
     ("Multiple IMAP/POP3 accounts and identities", MultiAccount),
     ("Fresh restore remaps paths and registers profile", FreshRestore),
     ("Existing accounts and NSS keys remain byte-identical", ExistingRestore),
@@ -369,4 +370,48 @@ static void PasswordBounds()
         byte[] valid = Archive.Encrypt(data, "original-password");
         Throws<ArgumentException>(() => Archive.Decrypt(valid, ""));
     } finally { Directory.Delete(root, true); }
+}
+
+static void Languages()
+{
+    var original = TextCatalog.Culture;
+    string root = Temp();
+    try
+    {
+        var sv = System.Globalization.CultureInfo.GetCultureInfo("sv-SE");
+        var en = System.Globalization.CultureInfo.GetCultureInfo("en-US");
+        var de = System.Globalization.CultureInfo.GetCultureInfo("de-DE");
+        Check(TextCatalog.ResolveCulture("auto", sv).Name == "sv");
+        Check(TextCatalog.ResolveCulture("auto", en).Name == "en");
+        Check(TextCatalog.ResolveCulture("auto", de).Name == "en");
+        Check(TextCatalog.ResolveCulture("en", sv).Name == "en");
+        Check(TextCatalog.ResolveCulture("sv", en).Name == "sv");
+        TextCatalog.SetLanguage("sv", en);
+        var swedish = TextCatalog.All();
+        Check(TextCatalog.Get("AccountCount", 7) == "7 konton");
+        Check(TextCatalog.Get("UseCharacters", 12) == "Använd 12–1024 tecken.");
+        TextCatalog.SetLanguage("en", sv);
+        var english = TextCatalog.All();
+        Check(swedish.Keys.Order().SequenceEqual(english.Keys.Order()));
+        Check(english.Count > 100);
+        foreach (string key in swedish.Keys)
+        {
+            Check(!string.IsNullOrWhiteSpace(english[key]), key);
+            Check(swedish[key] != english[key], "Missing English translation: " + key);
+            // Every parameter must survive translation, including long restore warnings.
+            string[] Parameters(string value) => System.Text.RegularExpressions.Regex.Matches(value, @"\{\d+\}").Select(m => m.Value).Order().ToArray();
+            Check(Parameters(swedish[key]).SequenceEqual(Parameters(english[key])), key);
+        }
+        Check(TextCatalog.Get("AccountCount", 7) == "7 accounts");
+        try { Preferences.Parse("invalid script"); throw new Exception("Expected parse failure"); }
+        catch (InvalidDataException ex) { Check(ex.Message.StartsWith("Invalid prefs.js", StringComparison.Ordinal)); }
+        string path = Path.Combine(root, "settings", "language.txt");
+        Check(LanguagePreference.Load(path) == "auto");
+        foreach (string choice in new[] { "sv", "en", "auto" })
+        { LanguagePreference.Save(path, choice); Check(LanguagePreference.Load(path) == choice); }
+        File.WriteAllText(path, "invalid"); Check(LanguagePreference.Load(path) == "auto");
+        Throws<ArgumentException>(() => LanguagePreference.Save(path, "fr"));
+        Check(LanguagePreference.Load(root) == "auto");
+    }
+    finally { TextCatalog.SetLanguage(original.Name, original); Directory.Delete(root, true); }
 }

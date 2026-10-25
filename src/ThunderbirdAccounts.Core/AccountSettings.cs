@@ -22,23 +22,23 @@ public static partial class AccountSettings
         var accounts = new List<MailAccount>();
         foreach (string id in Preferences.List(prefs.Text("mail.accountmanager.accounts")))
         {
-            Require(id.StartsWith("account", StringComparison.Ordinal) && ValidId(id), "Ogiltigt konto-ID.");
+            Require(id.StartsWith("account", StringComparison.Ordinal) && ValidId(id), TextCatalog.Get("InvalidAccountID"));
             string server = prefs.Text($"mail.account.{id}.server");
-            Require(server.StartsWith("server", StringComparison.Ordinal) && ValidId(server), $"Kontot {id} saknar server.");
+            Require(server.StartsWith("server", StringComparison.Ordinal) && ValidId(server), TextCatalog.Get("AccountHasNoServer", id));
             string prefix = $"mail.server.{server}.";
             string type = prefs.Text(prefix + "type");
-            Require(type is "imap" or "pop3" or "none", $"Kontotypen '{type}' stöds inte i version 0.1 (endast IMAP/POP3/lokala mappar).");
+            Require(type is "imap" or "pop3" or "none", TextCatalog.Get("AccountTypeIsNotSupportedIMAPPOPLocalFolders", type));
             var identities = Preferences.List(prefs.Text($"mail.account.{id}.identities"));
-            foreach (var identity in identities) Require(identity.StartsWith("id", StringComparison.Ordinal) && ValidId(identity), "Ogiltig identitet.");
+            foreach (var identity in identities) Require(identity.StartsWith("id", StringComparison.Ordinal) && ValidId(identity), TextCatalog.Get("InvalidIdentity"));
             string identityId = identities.FirstOrDefault() ?? "";
             string smtpId = prefs.Text($"mail.identity.{identityId}.smtpServer");
             if (smtpId.Length == 0) smtpId = prefs.Text("mail.smtp.defaultserver");
-            if (type != "none") Require(prefs.Text(prefix + "hostname").Length > 0, "E-postserverns adress saknas.");
+            if (type != "none") Require(prefs.Text(prefix + "hostname").Length > 0, TextCatalog.Get("EmailServerAddressIsMissing"));
             accounts.Add(new(id, prefs.Text(prefix + "name"), string.Join(", ", identities.Select(i => prefs.Text($"mail.identity.{i}.useremail"))), type,
                 Endpoint(prefs, prefix), Endpoint(prefs, $"mail.smtpserver.{smtpId}.")));
         }
-        Require(accounts.Count > 0, "Profilen innehåller inga konfigurerade konton.");
-        Require(accounts.Select(a => a.Id).Distinct().Count() == accounts.Count, "Dubbla konto-ID:n.");
+        Require(accounts.Count > 0, TextCatalog.Get("TheProfileContainsNoConfiguredAccounts"));
+        Require(accounts.Select(a => a.Id).Distinct().Count() == accounts.Count, TextCatalog.Get("DuplicateAccountIDs"));
         return accounts;
     }
     private static string Endpoint(IReadOnlyDictionary<string, JsonElement> prefs, string prefix) =>
@@ -49,7 +49,7 @@ public static partial class AccountSettings
         var accounts = Read(source);
         var servers = accounts.Select(a => source.Text($"mail.account.{a.Id}.server")).ToHashSet(StringComparer.Ordinal);
         string local = source.Text("mail.accountmanager.localfoldersserver");
-        if (local.Length > 0) { Require(local.StartsWith("server", StringComparison.Ordinal) && ValidId(local), "Ogiltig lokal server."); servers.Add(local); }
+        if (local.Length > 0) { Require(local.StartsWith("server", StringComparison.Ordinal) && ValidId(local), TextCatalog.Get("InvalidLocalServer")); servers.Add(local); }
         var identities = accounts.SelectMany(a => Preferences.List(source.Text($"mail.account.{a.Id}.identities"))).ToHashSet(StringComparer.Ordinal);
         var smtp = Preferences.List(source.Text("mail.smtpservers")).ToHashSet(StringComparer.Ordinal);
         foreach (string i in identities)
@@ -57,10 +57,10 @@ public static partial class AccountSettings
             string s = source.Text($"mail.identity.{i}.smtpServer"); if (s.Length > 0) smtp.Add(s);
             // Key export needs a separate OpenPGP/S/MIME workflow, never silently lose signing keys.
             foreach (string field in new[] { "openpgp_key_id", "encryption_cert_name", "signing_cert_name", "last_entered_external_gnupg_key_id" })
-                Require(source.Text($"mail.identity.{i}.{field}").Length == 0, "OpenPGP/S/MIME-identitet upptäckt. Exportera nycklar separat; denna version avbryter för att undvika ofullständig återställning.");
+                Require(source.Text($"mail.identity.{i}.{field}").Length == 0, TextCatalog.Get("OpenPGPSMIMEIdentityDetectedExportKeysSeparatelyThis"));
         }
         string defaultSmtp = source.Text("mail.smtp.defaultserver"); if (defaultSmtp.Length > 0) smtp.Add(defaultSmtp);
-        foreach (string s in smtp) Require(s.StartsWith("smtp", StringComparison.Ordinal) && ValidId(s), "Ogiltigt SMTP-ID.");
+        foreach (string s in smtp) Require(s.StartsWith("smtp", StringComparison.Ordinal) && ValidId(s), TextCatalog.Get("InvalidSMTPID"));
         var result = new Dictionary<string, JsonElement>(StringComparer.Ordinal);
         CopyExact(source, result, "mail.accountmanager.accounts", "mail.accountmanager.defaultaccount", "mail.accountmanager.localfoldersserver", "mail.smtpservers", "mail.smtp.defaultserver");
         foreach (var a in accounts) CopyExact(source, result, $"mail.account.{a.Id}.server", $"mail.account.{a.Id}.identities");
@@ -71,9 +71,9 @@ public static partial class AccountSettings
         {
             string prefix = $"mail.server.{server}.";
             string type = source.Text(prefix + "type");
-            Require(type is "imap" or "pop3" or "none", "Ogiltig servertyp.");
+            Require(type is "imap" or "pop3" or "none", TextCatalog.Get("InvalidServerType"));
             string deferred = source.Text(prefix + "deferred_to_account");
-            Require(deferred.Length == 0 || accounts.Any(a => a.Id == deferred), "POP3 hänvisar till ett saknat konto.");
+            Require(deferred.Length == 0 || accounts.Any(a => a.Id == deferred), TextCatalog.Get("POPRefersToAMissingAccount"));
             string dir = (type == "imap" ? "ImapMail/" : "Mail/") + server;
             result[prefix + "directory-rel"] = Preferences.Json("[ProfD]" + dir);
             // First launch must not immediately perform POP3 deletion or download.
@@ -89,7 +89,7 @@ public static partial class AccountSettings
         }
         // External signature files aren't mail-account data. Don't preserve broken file references.
         foreach (string identity in identities) result[$"mail.identity.{identity}.attach_signature"] = Preferences.Json(false);
-        Require(result.Text("mail.accountmanager.defaultaccount").Length == 0 || accounts.Any(a => a.Id == result.Text("mail.accountmanager.defaultaccount")), "Standardkontot saknas.");
+        Require(result.Text("mail.accountmanager.defaultaccount").Length == 0 || accounts.Any(a => a.Id == result.Text("mail.accountmanager.defaultaccount")), TextCatalog.Get("TheDefaultAccountIsMissing"));
         Read(result); return result;
     }
     private static void CopyExact(IReadOnlyDictionary<string, JsonElement> source, Dictionary<string, JsonElement> dest, params string[] keys)
@@ -101,7 +101,7 @@ public static partial class AccountSettings
             {
                 string key = prefix + id + "." + field;
                 if (!source.TryGetValue(key, out var value)) continue;
-                if (value.ValueKind is not (JsonValueKind.String or JsonValueKind.Number or JsonValueKind.True or JsonValueKind.False)) throw new InvalidDataException("Ogiltigt inställningsvärde.");
+                if (value.ValueKind is not (JsonValueKind.String or JsonValueKind.Number or JsonValueKind.True or JsonValueKind.False)) throw new InvalidDataException(TextCatalog.Get("InvalidPreferenceValue"));
                 // Local folder URIs contain old absolute profile paths. Thunderbird recreates its defaults.
                 if (value.ValueKind == JsonValueKind.String && value.GetString()!.StartsWith("mailbox:", StringComparison.OrdinalIgnoreCase)) continue;
                 dest[key] = value.Clone();

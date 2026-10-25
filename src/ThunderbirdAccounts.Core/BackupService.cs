@@ -24,7 +24,7 @@ public sealed class BackupService
             if (info.TryGetValue("Compatibility", out var section) && section.TryGetValue("LastVersion", out var lastVersion)) version = lastVersion;
         }
         if (!File.Exists(Path.Combine(profile.Path, "key4.db")) && (File.Exists(Path.Combine(profile.Path, "key3.db")) || File.Exists(Path.Combine(profile.Path, "signons.sqlite"))))
-            throw new InvalidDataException("Äldre lösenordsformat upptäckt. Uppgradera profilen i Thunderbird och avsluta Thunderbird innan backup.");
+            throw new InvalidDataException(TextCatalog.Get("LegacyPasswordFormatDetectedUpgradeTheProfileInThunderbird"));
         var files = new Dictionary<string, byte[]>(StringComparer.Ordinal);
         foreach (string name in AllowedFiles)
         {
@@ -34,7 +34,7 @@ public sealed class BackupService
             {
                 string sidecar = file + suffix;
                 SafeFiles.NoLinks(sidecar);
-                if (File.Exists(sidecar) && new FileInfo(sidecar).Length > 0) throw new IOException("Databasjournal finns kvar. Starta och stäng Thunderbird normalt innan backup: " + name);
+                if (File.Exists(sidecar) && new FileInfo(sidecar).Length > 0) throw new IOException(TextCatalog.Get("ADatabaseJournalRemainsStartAndCloseThunderbirdNormally") + name);
             }
             if (name.EndsWith(".db", StringComparison.Ordinal)) CheckDatabase(file);
             files[name] = SafeFiles.Read(file);
@@ -51,9 +51,9 @@ public sealed class BackupService
             connection.Open();
             using var command = connection.CreateCommand(); command.CommandText = "PRAGMA quick_check"; command.CommandTimeout = 10;
             using var result = command.ExecuteReader();
-            if (!result.Read() || result.GetString(0) != "ok" || result.Read()) throw new InvalidDataException("Databasens integritetskontroll misslyckades: " + Path.GetFileName(path));
+            if (!result.Read() || result.GetString(0) != "ok" || result.Read()) throw new InvalidDataException(TextCatalog.Get("DatabaseIntegrityCheckFailed") + Path.GetFileName(path));
         }
-        catch (SqliteException) { throw new InvalidDataException("Skadad eller oläsbar SQLite-databas: " + Path.GetFileName(path)); }
+        catch (SqliteException) { throw new InvalidDataException(TextCatalog.Get("CorruptOrUnreadableSQLiteDatabase") + Path.GetFileName(path)); }
     }
     public void Backup(Profile profile, string version, string destination, string password, bool allowShortPassword = false)
     {
@@ -67,35 +67,35 @@ public sealed class BackupService
     public static void Validate(AccountArchive archive)
     {
         if (archive.Schema != 1 || archive.Preferences is null || archive.Files is null || archive.ProfileName is null || archive.ThunderbirdVersion is null)
-            throw new InvalidDataException("Backupens schema stöds inte.");
-        if (archive.Preferences.Count > 20000 || archive.Files.Count > AllowedFiles.Count) throw new InvalidDataException("För många poster i backupen.");
+            throw new InvalidDataException(TextCatalog.Get("UnsupportedBackupSchema"));
+        if (archive.Preferences.Count > 20000 || archive.Files.Count > AllowedFiles.Count) throw new InvalidDataException(TextCatalog.Get("TooManyEntriesInTheBackup"));
         var safe = AccountSettings.Export(archive.Preferences);
         if (safe.Count != archive.Preferences.Count || safe.Any(p => !archive.Preferences.TryGetValue(p.Key, out var v) || v.GetRawText() != p.Value.GetRawText()))
-            throw new InvalidDataException("Backupen innehåller otillåtna inställningar eller osäkra profilsökvägar.");
+            throw new InvalidDataException(TextCatalog.Get("TheBackupContainsDisallowedPreferencesOrUnsafeProfilePaths"));
         foreach (var file in archive.Files)
         {
             if (!AllowedFiles.Contains(file.Key) || file.Value is null || file.Value.Length > 16 * 1024 * 1024)
-                throw new InvalidDataException("Backupen innehåller en otillåten fil.");
+                throw new InvalidDataException(TextCatalog.Get("TheBackupContainsADisallowedFile"));
             if (file.Key.EndsWith(".db", StringComparison.Ordinal))
             {
                 if (file.Value.Length < 100 || !file.Value.AsSpan(0, 16).SequenceEqual("SQLite format 3\0"u8))
-                    throw new InvalidDataException("Skadad eller äldre nyckel-/certifikatdatabas: " + file.Key);
+                    throw new InvalidDataException(TextCatalog.Get("CorruptOrLegacyKeyCertificateDatabase") + file.Key);
             }
         }
         if (archive.Files.TryGetValue("logins.json", out var logins))
         {
-            if (!archive.Files.ContainsKey("key4.db")) throw new InvalidDataException("logins.json finns men key4.db saknas. Lösenorden kan inte återställas säkert.");
+            if (!archive.Files.ContainsKey("key4.db")) throw new InvalidDataException(TextCatalog.Get("LoginsJsonExistsButKeyDbIsMissingPasswords"));
             try
             {
                 using var doc = JsonDocument.Parse(logins);
                 var root = doc.RootElement;
                 if (!root.TryGetProperty("version", out var version) || !version.TryGetInt32(out int n) || n is < 1 or > 3 ||
-                    !root.TryGetProperty("logins", out var entries) || entries.ValueKind != JsonValueKind.Array) throw new InvalidDataException("Okänt logins.json-format.");
+                    !root.TryGetProperty("logins", out var entries) || entries.ValueKind != JsonValueKind.Array) throw new InvalidDataException(TextCatalog.Get("UnknownLoginsJsonFormat"));
                 foreach (var entry in entries.EnumerateArray())
                     foreach (string field in new[] { "hostname", "encryptedUsername", "encryptedPassword" })
-                        if (!entry.TryGetProperty(field, out var v) || v.ValueKind != JsonValueKind.String) throw new InvalidDataException("Skadad inloggningspost.");
+                        if (!entry.TryGetProperty(field, out var v) || v.ValueKind != JsonValueKind.String) throw new InvalidDataException(TextCatalog.Get("CorruptLoginEntry"));
             }
-            catch (JsonException) { throw new InvalidDataException("logins.json är skadad."); }
+            catch (JsonException) { throw new InvalidDataException(TextCatalog.Get("LoginsJsonIsCorrupt")); }
         }
     }
 
@@ -123,7 +123,7 @@ public sealed class BackupService
                 string marker = Path.Combine(target, ".tbaccounts-id");
                 if (File.Exists(marker) && Encoding.UTF8.GetString(SafeFiles.Read(marker, 128)) == digest && ProfileDiscovery.Find(root).Any(p => Path.GetFullPath(p.Path) == target))
                     return new(target, true, null);
-                throw new IOException("Återställningsmappen finns redan och skrivs inte över.");
+                throw new IOException(TextCatalog.Get("TheRestoreFolderAlreadyExistsAndWillNotBe"));
             }
             string profiles = Path.Combine(root, "Profiles"); SafeFiles.NoLinks(profiles); Directory.CreateDirectory(profiles);
             string staging = Path.Combine(profiles, ".tbaccounts-stage-" + Guid.NewGuid().ToString("N"));
@@ -160,7 +160,7 @@ public sealed class BackupService
                     SafeFiles.EnsureStopped();
                     // Detect changes by another profile manager before commit.
                     if ((before is null && File.Exists(iniPath)) || (before is not null && (!File.Exists(iniPath) || !SafeFiles.Read(iniPath).SequenceEqual(before))))
-                        throw new IOException("profiles.ini ändrades under arbetet. Försök igen.");
+                        throw new IOException(TextCatalog.Get("ProfilesIniChangedDuringTheOperationTryAgain"));
                     if (before is not null) File.Replace(temp, iniPath, backup); else File.Move(temp, iniPath, false);
                     committed = true; return new(target, false, backup);
                 }

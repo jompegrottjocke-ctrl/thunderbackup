@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ThunderbirdAccounts.App;
+using ThunderbirdAccounts.Core;
 
 namespace ThunderbirdAccounts.UiTests;
 
@@ -30,12 +31,43 @@ internal static class Program
             var confirm = new ConfirmationDialog(main, "Återställ 10 konton från Min Thunderbird-profil?\n\nEn ny profil skapas. Befintliga profiler bevaras.\n\nPrimary Password behålls. OAuth kan kräva ny inloggning. E-postmeddelanden och bilagor ingår inte.");
             confirm.Show(); Pump(); Capture(confirm, "restore-confirmation.png", output); confirm.Close();
             main.Width = main.MinWidth; main.Height = main.MinHeight; Pump(); Capture(main, "overview-minimum-size.png", output);
+            TestLanguages(main, output);
             Console.WriteLine("PASS WPF rendering: overview, minimum window size, profile popup and dark dialogs");
             Console.WriteLine("PASS Password UI: short password rejected by default, accepted with opt-in, accepted on restore");
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }
         finally { main?.Close(); app.Shutdown(); }
+    }
+    private static void TestLanguages(MainWindow main, string output)
+    {
+        var languages = (ComboBox)main.FindName("LanguageBox");
+        var accounts = (DataGrid)main.FindName("AccountsGrid");
+        var count = (TextBlock)main.FindName("CountText");
+        object source = accounts.ItemsSource;
+        int selection = languages.SelectedIndex;
+        try
+        {
+            foreach (var (index, label, heading, suffix) in new[] { (1, "Skapa backup", "KONTO", "sv"), (2, "Create backup", "ACCOUNT", "en") })
+            {
+                languages.SelectedIndex = index; Pump();
+                if (!Descendants<TextBlock>(main).Any(t => t.Text == label)) throw new Exception("Main window did not switch language: " + suffix);
+                if ((string)accounts.Columns[0].Header != heading || count.Text != "5 " + (index == 1 ? "konton" : "accounts"))
+                    throw new Exception("Account table did not switch language.");
+                if (!ReferenceEquals(accounts.ItemsSource, source)) throw new Exception("Language switch replaced the selected accounts.");
+                var confirm = new ConfirmationDialog(main, TextCatalog.Get("RestoreAccountsFromANewProfileWillBeCreated", 5, "Test", ""));
+                if (confirm.Title != (index == 1 ? "Granska återställning" : "Review restore")) throw new Exception("Confirmation title is not localized.");
+                confirm.Show(); Pump(); Capture(confirm, "restore-confirmation-" + suffix + ".png", output); confirm.Close();
+                TestPassword(main, true, output);
+                TestPassword(main, false, output);
+                Capture(main, "overview-" + suffix + ".png", output);
+            }
+            languages.SelectedIndex = 0; Pump();
+            if (TextCatalog.Culture.Name != TextCatalog.ResolveCulture("auto", System.Globalization.CultureInfo.CurrentUICulture).Name)
+                throw new Exception("Automatic language did not follow the system UI language.");
+            Console.WriteLine("PASS UI languages: Swedish, English, automatic, translated dialogs and preserved account selection");
+        }
+        finally { languages.SelectedIndex = selection; }
     }
     private static void TestPassword(Window owner, bool create, string output)
     {

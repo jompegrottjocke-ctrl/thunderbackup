@@ -17,7 +17,7 @@ public static class Archive
     private const int HeaderSize = 40;
     private static byte[] Key(string password, byte[] salt)
     {
-        if (password.Length < 1 || password.Length > 1024) throw new ArgumentException("Backuplösenordet måste vara 1–1024 tecken.");
+        if (password.Length < 1 || password.Length > 1024) throw new ArgumentException(TextCatalog.Get("TheBackupPasswordMustBeCharacters"));
         byte[] bytes = Encoding.UTF8.GetBytes(password);
         try
         {
@@ -30,9 +30,9 @@ public static class Archive
     {
         int minimum = allowShortPassword ? 1 : 12;
         if (password.Length < minimum || password.Length > 1024)
-            throw new ArgumentException($"Backuplösenordet måste vara {minimum}–1024 tecken. Kortare lösenord kräver ett aktivt val.");
+            throw new ArgumentException(TextCatalog.Get("TheBackupPasswordMustBeCharactersShorterPasswordsRequire", minimum));
         byte[] plain = JsonSerializer.SerializeToUtf8Bytes(archive);
-        if (plain.Length > MaxBytes) { CryptographicOperations.ZeroMemory(plain); throw new InvalidDataException("Backupen är för stor."); }
+        if (plain.Length > MaxBytes) { CryptographicOperations.ZeroMemory(plain); throw new InvalidDataException(TextCatalog.Get("TheBackupIsTooLarge")); }
         byte[] header = new byte[HeaderSize]; Magic.CopyTo(header, 0);
         RandomNumberGenerator.Fill(header.AsSpan(8, 16)); RandomNumberGenerator.Fill(header.AsSpan(24, 12));
         BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(36), plain.Length);
@@ -49,23 +49,23 @@ public static class Archive
     public static AccountArchive Decrypt(byte[] data, string password)
     {
         if (data.Length < 56 || data.Length > MaxBytes + 56 || !data.AsSpan(0, 8).SequenceEqual(Magic))
-            throw new InvalidDataException("Filen är inte en .tbaccounts-backup i format version 1.");
+            throw new InvalidDataException(TextCatalog.Get("TheFileIsNotAVersionTbaccountsBackup"));
         int length = BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(36, 4));
-        if (length < 1 || length > MaxBytes || length != data.Length - 56) throw new InvalidDataException("Backupens längd är ogiltig.");
+        if (length < 1 || length > MaxBytes || length != data.Length - 56) throw new InvalidDataException(TextCatalog.Get("InvalidBackupLength"));
         byte[] key = Key(password, data[8..24]); byte[] plain = new byte[length];
         try
         {
             using var aes = new AesGcm(key, 16);
             try { aes.Decrypt(data.AsSpan(24, 12), data.AsSpan(56), data.AsSpan(40, 16), plain, data.AsSpan(0, 40)); }
-            catch (CryptographicException) { throw new InvalidDataException("Fel backuplösenord eller skadad/manipulerad backup. Ingenting har återställts."); }
-            var archive = JsonSerializer.Deserialize<AccountArchive>(plain) ?? throw new InvalidDataException("Tom backup.");
+            catch (CryptographicException) { throw new InvalidDataException(TextCatalog.Get("IncorrectBackupPasswordOrCorruptTamperedBackupNothingHas")); }
+            var archive = JsonSerializer.Deserialize<AccountArchive>(plain) ?? throw new InvalidDataException(TextCatalog.Get("EmptyBackup"));
             BackupService.Validate(archive); return archive;
         }
         finally { CryptographicOperations.ZeroMemory(key); CryptographicOperations.ZeroMemory(plain); }
     }
     public static AccountArchive Read(string file, string password)
     {
-        if (new FileInfo(file).Length > MaxBytes + 56) throw new InvalidDataException("Backupfilen är för stor.");
+        if (new FileInfo(file).Length > MaxBytes + 56) throw new InvalidDataException(TextCatalog.Get("TheBackupFileIsTooLarge"));
         return Decrypt(File.ReadAllBytes(file), password);
     }
     internal static void AtomicCreate(string path, byte[] bytes)

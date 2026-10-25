@@ -1,0 +1,441 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <data name="Overview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="TOOLS" xml:space="preserve">
+    <value>TOOLS</value>
+  </data>
+  <data name="RefreshProfiles" xml:space="preserve">
+    <value>Refresh profiles</value>
+  </data>
+  <data name="ChooseProfileFolder" xml:space="preserve">
+    <value>Choose profile folder…</value>
+  </data>
+  <data name="ChooseThunderbird" xml:space="preserve">
+    <value>Choose Thunderbird…</value>
+  </data>
+  <data name="LocalPrivateEncrypted" xml:space="preserve">
+    <value>Local. Private. Encrypted.</value>
+  </data>
+  <data name="YourAccountsStayWithYou" xml:space="preserve">
+    <value>Your accounts stay with you.</value>
+  </data>
+  <data name="YOURACCOUNTBACKUP" xml:space="preserve">
+    <value>YOUR ACCOUNT BACKUP</value>
+  </data>
+  <data name="ReadyForAFreshStart" xml:space="preserve">
+    <value>Ready for a fresh start.</value>
+  </data>
+  <data name="AllYourAccountsSafelyStoredRestoreThemWhenYou" xml:space="preserve">
+    <value>All your accounts, safely stored. Restore them when you need them.</value>
+  </data>
+  <data name="ThunderbirdProfile" xml:space="preserve">
+    <value>Thunderbird profile</value>
+  </data>
+  <data name="ChooseAccountSource" xml:space="preserve">
+    <value>Choose account source</value>
+  </data>
+  <data name="BackupAccountsCreateBackup" xml:space="preserve">
+    <value>Backup Accounts – create backup</value>
+  </data>
+  <data name="CreateBackup" xml:space="preserve">
+    <value>Create backup</value>
+  </data>
+  <data name="SaveAccountsAndLogins" xml:space="preserve">
+    <value>Save accounts and logins</value>
+  </data>
+  <data name="RestoreAccountsRestoreBackup" xml:space="preserve">
+    <value>Restore Accounts – restore backup</value>
+  </data>
+  <data name="RestoreBackup" xml:space="preserve">
+    <value>Restore backup</value>
+  </data>
+  <data name="BringYourAccountsBack" xml:space="preserve">
+    <value>Bring your accounts back</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>0 accounts</value>
+  </data>
+  <data name="AccountsInTheBackup" xml:space="preserve">
+    <value>Accounts in the backup</value>
+  </data>
+  <data name="AllSupportedAccountsInTheSelectedProfileAreIncluded" xml:space="preserve">
+    <value>All supported accounts in the selected profile are included.</value>
+  </data>
+  <data name="AccountsIncludedInTheBackup" xml:space="preserve">
+    <value>Accounts included in the backup</value>
+  </data>
+  <data name="ACCOUNT" xml:space="preserve">
+    <value>ACCOUNT</value>
+  </data>
+  <data name="EMAILADDRESS" xml:space="preserve">
+    <value>EMAIL ADDRESS</value>
+  </data>
+  <data name="TYPE" xml:space="preserve">
+    <value>TYPE</value>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="INCOMING" xml:space="preserve">
+    <value>INCOMING</value>
+  </data>
+  <data name="OUTGOING" xml:space="preserve">
+    <value>OUTGOING</value>
+  </data>
+  <data name="YourAccountsAppearHere" xml:space="preserve">
+    <value>Your accounts appear here</value>
+  </data>
+  <data name="SelectAProfileWithThunderbirdClosed" xml:space="preserve">
+    <value>Select a profile with Thunderbird closed.</value>
+  </data>
+  <data name="AccountSettingsAndLoginsOnlyEmailAndAttachmentsAre" xml:space="preserve">
+    <value>Account settings and logins only. Email and attachments are not included.</value>
+  </data>
+  <data name="OpenRestoredProfile" xml:space="preserve">
+    <value>Open restored profile →</value>
+  </data>
+  <data name="CloseThunderbirdBeforeBackupAndRestoreOAuthMayRequire" xml:space="preserve">
+    <value>Close Thunderbird before backup and restore. OAuth may require signing in again.</value>
+  </data>
+  <data name="POPLocalMessagesAreNotIncludedPrimaryPasswordIs" xml:space="preserve">
+    <value>POP3: local messages are not included. Primary Password is preserved.</value>
+  </data>
+  <data name="ReadySelectAProfileToBegin" xml:space="preserve">
+    <value>Ready. Select a profile to begin.</value>
+  </data>
+  <data name="CreateEncryptedBackup" xml:space="preserve">
+    <value>Create encrypted backup</value>
+  </data>
+  <data name="OpenYourBackup" xml:space="preserve">
+    <value>Open your backup</value>
+  </data>
+  <data name="PROTECTYOURACCOUNTS" xml:space="preserve">
+    <value>PROTECT YOUR ACCOUNTS</value>
+  </data>
+  <data name="RestoreAccountsEyebrow" xml:space="preserve">
+    <value>RESTORE YOUR ACCOUNTS</value>
+  </data>
+  <data name="OneBackupYoursAlone" xml:space="preserve">
+    <value>One backup. Yours alone.</value>
+  </data>
+  <data name="WelcomeBack" xml:space="preserve">
+    <value>Welcome back.</value>
+  </data>
+  <data name="ChooseAPasswordForTheBackupFileKeepIt" xml:space="preserve">
+    <value>Choose a password for the backup file. Keep it separately; a forgotten password cannot be recovered.</value>
+  </data>
+  <data name="EnterThePasswordUsedWhenTheBackupWasCreated" xml:space="preserve">
+    <value>Enter the password used when the backup was created.</value>
+  </data>
+  <data name="BackupPassword" xml:space="preserve">
+    <value>Backup password</value>
+  </data>
+  <data name="ConfirmBackupPassword" xml:space="preserve">
+    <value>Confirm backup password</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="AllowAShorterPassword" xml:space="preserve">
+    <value>Allow a shorter password</value>
+  </data>
+  <data name="AtLeastCharacterAShortPasswordIsEasierTo" xml:space="preserve">
+    <value>At least 1 character. A short password is easier to guess. We recommend at least 12 characters.</value>
+  </data>
+  <data name="AtLeastCharactersRecommendedEnableTheOptionAboveTo" xml:space="preserve">
+    <value>At least 12 characters recommended. Enable the option above to use fewer.</value>
+  </data>
+  <data name="ThisIsNotThunderbirdSPrimaryPassword" xml:space="preserve">
+    <value>This is not Thunderbird’s Primary Password.</value>
+  </data>
+  <data name="UnlockBackup" xml:space="preserve">
+    <value>Unlock backup</value>
+  </data>
+  <data name="UseCharacters" xml:space="preserve">
+    <value>Use {0}–1024 characters.</value>
+  </data>
+  <data name="ThePasswordsDoNotMatch" xml:space="preserve">
+    <value>The passwords do not match.</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ReviewRestore" xml:space="preserve">
+    <value>Review restore</value>
+  </data>
+  <data name="RestoreYourAccounts" xml:space="preserve">
+    <value>Restore your accounts</value>
+  </data>
+  <data name="RestoreToNewProfile" xml:space="preserve">
+    <value>Restore to new profile</value>
+  </data>
+  <data name="MyThunderbirdProfile" xml:space="preserve">
+    <value>My Thunderbird profile</value>
+  </data>
+  <data name="WorkProfile" xml:space="preserve">
+    <value>Work profile</value>
+  </data>
+  <data name="Personal" xml:space="preserve">
+    <value>Personal</value>
+  </data>
+  <data name="Work" xml:space="preserve">
+    <value>Work</value>
+  </data>
+  <data name="Family" xml:space="preserve">
+    <value>Family</value>
+  </data>
+  <data name="ArchiveAccount" xml:space="preserve">
+    <value>Archive account</value>
+  </data>
+  <data name="LocalFolders" xml:space="preserve">
+    <value>Local folders</value>
+  </data>
+  <data name="PreviewAccountCount" xml:space="preserve">
+    <value>5 accounts</value>
+  </data>
+  <data name="ProfileLoadedAllSupportedAccountsAreIncludedInThe" xml:space="preserve">
+    <value>Profile loaded. All supported accounts are included in the backup.</value>
+  </data>
+  <data name="NoRegisteredProfileFoundChooseAProfileFolderOr" xml:space="preserve">
+    <value>No registered profile found. Choose a profile folder or restore a backup.</value>
+  </data>
+  <data name="ThunderbirdWasNotFoundAutomaticallyChooseThunderbirdExeTo" xml:space="preserve">
+    <value>Thunderbird was not found automatically. Choose thunderbird.exe to check its version and launch it.</value>
+  </data>
+  <data name="ChooseTheThunderbirdProfileContainingPrefsJs" xml:space="preserve">
+    <value>Choose the Thunderbird profile containing prefs.js</value>
+  </data>
+  <data name="ChooseThunderbirdExe" xml:space="preserve">
+    <value>Choose thunderbird.exe</value>
+  </data>
+  <data name="AccountCount" xml:space="preserve">
+    <value>{0} accounts</value>
+  </data>
+  <data name="ProfileLoadedTheBackupDoesNotIncludeEmailMessages" xml:space="preserve">
+    <value>Profile loaded. The backup does not include email messages.</value>
+  </data>
+  <data name="SelectAProfileFirst" xml:space="preserve">
+    <value>Select a profile first.</value>
+  </data>
+  <data name="ChooseANewFileNameExistingBackupsAreNever" xml:space="preserve">
+    <value>Choose a new file name. Existing backups are never overwritten.</value>
+  </data>
+  <data name="CreatingAndEncryptingAccountBackup" xml:space="preserve">
+    <value>Creating and encrypting account backup…</value>
+  </data>
+  <data name="BackupCreated" xml:space="preserve">
+    <value>Backup created: </value>
+  </data>
+  <data name="KeepThePasswordSeparatelyAndTestRestoringBeforeReinstalling" xml:space="preserve">
+    <value>. Keep the password separately and test restoring before reinstalling.</value>
+  </data>
+  <data name="InstallThunderbirdOrChooseThunderbirdExeFirst" xml:space="preserve">
+    <value>Install Thunderbird or choose thunderbird.exe first.</value>
+  </data>
+  <data name="CheckingBackupIntegrity" xml:space="preserve">
+    <value>Checking backup integrity…</value>
+  </data>
+  <data name="TheBackupComesFromANewerThunderbirdVersionUpdate" xml:space="preserve">
+    <value>The backup comes from a newer Thunderbird version. Update Thunderbird first.</value>
+  </data>
+  <data name="RestoreCancelled" xml:space="preserve">
+    <value>Restore cancelled.</value>
+  </data>
+  <data name="RestoringAccountsToASeparateProfile" xml:space="preserve">
+    <value>Restoring accounts to a separate profile…</value>
+  </data>
+  <data name="TheBackupHasAlreadyBeenRestoredNoDuplicatesWere" xml:space="preserve">
+    <value>The backup has already been restored; no duplicates were created. </value>
+  </data>
+  <data name="AccountsRestored" xml:space="preserve">
+    <value>Accounts restored. </value>
+  </data>
+  <data name="OpenTheProfileUsingTheButtonAboveThenChoose" xml:space="preserve">
+    <value>Open the profile using the button above. Then choose the default profile via about:profiles in Thunderbird. </value>
+  </data>
+  <data name="PreviousProfileRegistry" xml:space="preserve">
+    <value>Previous profile registry: </value>
+  </data>
+  <data name="ThunderbirdHasStartedWithTheRestoredProfile" xml:space="preserve">
+    <value>Thunderbird has started with the restored profile.</value>
+  </data>
+  <data name="WaitForTheCurrentFileOperationToFinish" xml:space="preserve">
+    <value>Wait for the current file operation to finish.</value>
+  </data>
+  <data name="InvalidAccountID" xml:space="preserve">
+    <value>Invalid account ID.</value>
+  </data>
+  <data name="AccountHasNoServer" xml:space="preserve">
+    <value>Account {0} has no server.</value>
+  </data>
+  <data name="AccountTypeIsNotSupportedIMAPPOPLocalFolders" xml:space="preserve">
+    <value>Account type '{0}' is not supported (IMAP/POP3/local folders only).</value>
+  </data>
+  <data name="InvalidIdentity" xml:space="preserve">
+    <value>Invalid identity.</value>
+  </data>
+  <data name="EmailServerAddressIsMissing" xml:space="preserve">
+    <value>Email server address is missing.</value>
+  </data>
+  <data name="TheProfileContainsNoConfiguredAccounts" xml:space="preserve">
+    <value>The profile contains no configured accounts.</value>
+  </data>
+  <data name="DuplicateAccountIDs" xml:space="preserve">
+    <value>Duplicate account IDs.</value>
+  </data>
+  <data name="InvalidLocalServer" xml:space="preserve">
+    <value>Invalid local server.</value>
+  </data>
+  <data name="OpenPGPSMIMEIdentityDetectedExportKeysSeparatelyThis" xml:space="preserve">
+    <value>OpenPGP/S/MIME identity detected. Export keys separately; this version stops to avoid an incomplete restore.</value>
+  </data>
+  <data name="InvalidSMTPID" xml:space="preserve">
+    <value>Invalid SMTP ID.</value>
+  </data>
+  <data name="InvalidServerType" xml:space="preserve">
+    <value>Invalid server type.</value>
+  </data>
+  <data name="POPRefersToAMissingAccount" xml:space="preserve">
+    <value>POP3 refers to a missing account.</value>
+  </data>
+  <data name="TheDefaultAccountIsMissing" xml:space="preserve">
+    <value>The default account is missing.</value>
+  </data>
+  <data name="InvalidPreferenceValue" xml:space="preserve">
+    <value>Invalid preference value.</value>
+  </data>
+  <data name="DefaultProfile" xml:space="preserve">
+    <value> • default profile</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="DuplicateSectionsInProfilesIni" xml:space="preserve">
+    <value>Duplicate sections in profiles.ini.</value>
+  </data>
+  <data name="InvalidProfilesIni" xml:space="preserve">
+    <value>Invalid profiles.ini.</value>
+  </data>
+  <data name="DuplicateValuesInProfilesIni" xml:space="preserve">
+    <value>Duplicate values in profiles.ini.</value>
+  </data>
+  <data name="SymbolicLinksJunctionsAreNotSupported" xml:space="preserve">
+    <value>Symbolic links/junctions are not supported: </value>
+  </data>
+  <data name="CloseThunderbirdCompletelyBeforeContinuing" xml:space="preserve">
+    <value>Close Thunderbird completely before continuing.</value>
+  </data>
+  <data name="TheProfileFolderIsMissing" xml:space="preserve">
+    <value>The profile folder is missing.</value>
+  </data>
+  <data name="TheProfileIsLockedCloseThunderbirdAndTryAgain" xml:space="preserve">
+    <value>The profile is locked. Close Thunderbird and try again.</value>
+  </data>
+  <data name="ProfileFileIsTooLarge" xml:space="preserve">
+    <value>Profile file is too large: </value>
+  </data>
+  <data name="LegacyPasswordFormatDetectedUpgradeTheProfileInThunderbird" xml:space="preserve">
+    <value>Legacy password format detected. Upgrade the profile in Thunderbird and close Thunderbird before backup.</value>
+  </data>
+  <data name="ADatabaseJournalRemainsStartAndCloseThunderbirdNormally" xml:space="preserve">
+    <value>A database journal remains. Start and close Thunderbird normally before backup: </value>
+  </data>
+  <data name="DatabaseIntegrityCheckFailed" xml:space="preserve">
+    <value>Database integrity check failed: </value>
+  </data>
+  <data name="CorruptOrUnreadableSQLiteDatabase" xml:space="preserve">
+    <value>Corrupt or unreadable SQLite database: </value>
+  </data>
+  <data name="UnsupportedBackupSchema" xml:space="preserve">
+    <value>Unsupported backup schema.</value>
+  </data>
+  <data name="TooManyEntriesInTheBackup" xml:space="preserve">
+    <value>Too many entries in the backup.</value>
+  </data>
+  <data name="TheBackupContainsDisallowedPreferencesOrUnsafeProfilePaths" xml:space="preserve">
+    <value>The backup contains disallowed preferences or unsafe profile paths.</value>
+  </data>
+  <data name="TheBackupContainsADisallowedFile" xml:space="preserve">
+    <value>The backup contains a disallowed file.</value>
+  </data>
+  <data name="CorruptOrLegacyKeyCertificateDatabase" xml:space="preserve">
+    <value>Corrupt or legacy key/certificate database: </value>
+  </data>
+  <data name="LoginsJsonExistsButKeyDbIsMissingPasswords" xml:space="preserve">
+    <value>logins.json exists but key4.db is missing. Passwords cannot be restored safely.</value>
+  </data>
+  <data name="UnknownLoginsJsonFormat" xml:space="preserve">
+    <value>Unknown logins.json format.</value>
+  </data>
+  <data name="CorruptLoginEntry" xml:space="preserve">
+    <value>Corrupt login entry.</value>
+  </data>
+  <data name="LoginsJsonIsCorrupt" xml:space="preserve">
+    <value>logins.json is corrupt.</value>
+  </data>
+  <data name="TheRestoreFolderAlreadyExistsAndWillNotBe" xml:space="preserve">
+    <value>The restore folder already exists and will not be overwritten.</value>
+  </data>
+  <data name="ProfilesIniChangedDuringTheOperationTryAgain" xml:space="preserve">
+    <value>profiles.ini changed during the operation. Try again.</value>
+  </data>
+  <data name="TheBackupPasswordMustBeCharacters" xml:space="preserve">
+    <value>The backup password must be 1–1024 characters.</value>
+  </data>
+  <data name="TheBackupPasswordMustBeCharactersShorterPasswordsRequire" xml:space="preserve">
+    <value>The backup password must be {0}–1024 characters. Shorter passwords require explicit opt-in.</value>
+  </data>
+  <data name="TheBackupIsTooLarge" xml:space="preserve">
+    <value>The backup is too large.</value>
+  </data>
+  <data name="TheFileIsNotAVersionTbaccountsBackup" xml:space="preserve">
+    <value>The file is not a version 1 .tbaccounts backup.</value>
+  </data>
+  <data name="InvalidBackupLength" xml:space="preserve">
+    <value>Invalid backup length.</value>
+  </data>
+  <data name="IncorrectBackupPasswordOrCorruptTamperedBackupNothingHas" xml:space="preserve">
+    <value>Incorrect backup password or corrupt/tampered backup. Nothing has been restored.</value>
+  </data>
+  <data name="EmptyBackup" xml:space="preserve">
+    <value>Empty backup.</value>
+  </data>
+  <data name="TheBackupFileIsTooLarge" xml:space="preserve">
+    <value>The backup file is too large.</value>
+  </data>
+  <data name="PrefsJsIsTooLarge" xml:space="preserve">
+    <value>prefs.js is too large.</value>
+  </data>
+  <data name="InvalidPrefsJsNearCharacterNoScriptsAreExecuted" xml:space="preserve">
+    <value>Invalid prefs.js near character {0}. No scripts are executed.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Automatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="TheLanguageCouldNotBeSavedYourSelectionApplies" xml:space="preserve">
+    <value>The language could not be saved. Your selection applies until the app is closed.</value>
+  </data>
+  <data name="POPLocalEmailIsNotIncludedInTheBackup" xml:space="preserve">
+    <value>
+
+POP3: local email is not included in the backup. Server messages may have been deleted. Automatic fetching is disabled and leave on server is enabled.</value>
+  </data>
+  <data name="RestoreAccountsFromANewProfileWillBeCreated" xml:space="preserve">
+    <value>Restore {0} accounts from {1}?
+
+A new profile will be created. Existing profiles are preserved. Then use the Open restored profile button.
+
+The original Primary Password is still required if used. OAuth may require reauthentication. External signature files and OpenPGP/S/MIME keys are not included. Automatic login at startup is disabled; fetch email after checking the settings.{2}</value>
+  </data>
+</root>

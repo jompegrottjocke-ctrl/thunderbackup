@@ -9,7 +9,7 @@ public static class Preferences
 {
     public static Dictionary<string, JsonElement> Parse(string text)
     {
-        if (text.Length > 8 * 1024 * 1024) throw new InvalidDataException("prefs.js är för stor.");
+        if (text.Length > 8 * 1024 * 1024) throw new InvalidDataException(TextCatalog.Get("PrefsJsIsTooLarge"));
         var reader = new Reader(text);
         var result = new Dictionary<string, JsonElement>(StringComparer.Ordinal);
         while (reader.More)
@@ -47,7 +47,7 @@ public static class Preferences
             }
         }
         public bool More { get { Skip(); return pos < text.Length; } }
-        private InvalidDataException Bad() => new($"Ogiltig prefs.js nära tecken {pos}. Inga skript körs.");
+        private InvalidDataException Bad() => new(TextCatalog.Get("InvalidPrefsJsNearCharacterNoScriptsAreExecuted", pos));
         public void Expect(string token)
         {
             Skip(); if (!text.AsSpan(pos).StartsWith(token, StringComparison.Ordinal)) throw Bad(); pos += token.Length;

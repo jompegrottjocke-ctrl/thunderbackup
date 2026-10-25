@@ -15,6 +15,14 @@ En portabel Windows-app med mörkt WPF-gränssnitt. Säkerhetskopierar IMAP-/POP
 
 Varje `.tbaccounts`-fil innehåller en vald profil med samtliga dess stödda konton. Gör en backup per profil om du använder flera. Samma backup återställs inte två gånger till samma målrot. Separata backupögonblick kan ge separata profiler; konton slås aldrig ihop.
 
+## Språk
+
+Välj **Automatiskt**, **Svenska** eller **English** längst ned i sidofältet.
+Automatiskt använder svenska när Windows visningsspråk är svenska och engelska för andra språk.
+Bytet gäller direkt, även appens dialoger och felmeddelanden. Valet sparas för nästa start i
+`%LOCALAPPDATA%/ThunderbirdAccounts/language.txt`; det påverkar inte Thunderbird eller backupformatet.
+Windows egna filväljare och systemfel kan fortfarande följa Windows språk.
+
 ## Begränsningar som påverkar återställningen
 
 - **Befintliga profiler bevaras.** Den här versionen stöder inte sammanslagning med befintliga konton. Detta undviker att skriva över deras NSS-nycklar och skapa oläsbara lösenord. En eventuell tom Thunderbird-profil lämnas kvar.
