@@ -1,0 +1,45 @@
+name: Build Windows release
+on:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Run synthetic tests and build standalone executable
+        shell: pwsh
+        run: ./build.ps1
+      - name: Package executable and documentation
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force release-package | Out-Null
+          Copy-Item 'artifacts/win-x64/*.exe' release-package/
+          Copy-Item README.md,LICENSE,THIRD-PARTY-NOTICES.md release-package/
+          Copy-Item -Recurse docs,licenses release-package/
+          $archive = "ThunderbirdAccounts-$env:GITHUB_REF_NAME-win-x64.zip"
+          Compress-Archive -Path release-package/* -DestinationPath $archive
+          $hash = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  $archive" | Set-Content SHA256SUMS.txt -Encoding ascii
+      - name: Publish prerelease with Windows download
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          @'
+          Första versionen av Thunderbird Account Backup & Restore.
+
+          Packa upp Windows x64-paketet och kör exe-filen. Programmet kräver ingen separat .NET-installation.
+
+          Syntetiska regressionstester körs på Windows före publicering. Gränssnittet och faktisk Thunderbird-synkronisering behöver fortfarande acceptanstestas. Provåterställ innan du installerar om Windows. OAuth kan kräva ny inloggning; Primary Password behålls.
+
+          Befintliga profiler bevaras. Återställning skapar en separat profil. Läs README.md och docs/TESTING.md före användning.
+          '@ | Set-Content release-notes.md -Encoding utf8
+          gh release create $env:GITHUB_REF_NAME "ThunderbirdAccounts-$env:GITHUB_REF_NAME-win-x64.zip" SHA256SUMS.txt --title "Thunderbird Account Backup & Restore $env:GITHUB_REF_NAME" --notes-file release-notes.md --prerelease --verify-tag
+          if ($LASTEXITCODE -ne 0) { throw 'Release publication failed.' }
