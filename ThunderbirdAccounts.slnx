@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ThunderbirdAccounts.Core/ThunderbirdAccounts.Core.csproj" />
+    <Project Path="src/ThunderbirdAccounts.App/ThunderbirdAccounts.App.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ThunderbirdAccounts.Tests/ThunderbirdAccounts.Tests.csproj" />
+  </Folder>
+</Solution>
