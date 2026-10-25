@@ -166,7 +166,12 @@
                 </ControlTemplate>
             </Setter.Value></Setter>
         </Style>
+        <Style x:Key="AccountCellText" TargetType="TextBlock">
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+        </Style>
         <Style TargetType="DataGrid">
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="Background" Value="{StaticResource Surface}"/>
             <Setter Property="Foreground" Value="{StaticResource Text}"/>
             <Setter Property="RowBackground" Value="{StaticResource Surface}"/>
