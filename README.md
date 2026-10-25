@@ -4,6 +4,10 @@ En portabel Windows-app med mörkt WPF-gränssnitt. Säkerhetskopierar IMAP-/POP
 
 **Första versionen. Kompilerad för Windows x64; Automatiska gränssnittstester renderar fönster och dialoger på Windows med syntetiska konton. En verklig Thunderbird-installation på Windows måste fortfarande acceptanstestas. Provåterställ innan du installerar om Windows.**
 
+![Thunderbird Account Backup & Restore — English interface](docs/images/overview-en.png)
+
+*Engelskt gränssnitt med syntetiska exempelkonton.*
+
 ## Användning
 
 1. Packa upp Windows-paketet till en mapp du har skrivrättigheter till. Kör `Thunderbird Account Backup and Restore.exe`. Ingen installation, separat .NET-runtime eller administratör krävs. Windows kan varna eftersom programmet saknar kodsignatur.

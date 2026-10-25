@@ -47,10 +47,10 @@ public partial class MainWindow : Window
         { Status(TextCatalog.Get("TheLanguageCouldNotBeSavedYourSelectionApplies"), true); }
     }
     public MainWindow() : this(false) { }
-    internal MainWindow(bool preview)
+    internal MainWindow(bool preview, string? previewLanguage = null)
     {
         previewMode = preview;
-        string choice = preview ? "auto" : LanguagePreference.Load(LanguagePreference.DefaultPath);
+        string choice = preview ? previewLanguage ?? "auto" : LanguagePreference.Load(LanguagePreference.DefaultPath);
         ApplyLanguage(choice);
         InitializeComponent();
         TranslateColumnHeaders();

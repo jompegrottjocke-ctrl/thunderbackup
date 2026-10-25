@@ -34,6 +34,10 @@ internal static class Program
             confirm.Show(); Pump(); Capture(confirm, "restore-confirmation.png", output); confirm.Close();
             main.Width = main.MinWidth; main.Height = main.MinHeight; Pump(); Capture(main, "overview-minimum-size.png", output);
             TestLanguages(main, output);
+            // Full-size English overview using synthetic accounts only.
+            var english = new MainWindow(preview: true, previewLanguage: "en");
+            try { english.Show(); Pump(); CheckColumnHeaders(english); Capture(english, "overview-en.png", output); }
+            finally { english.Close(); }
             Console.WriteLine("PASS WPF rendering: overview, minimum window size, profile popup and dark dialogs");
             Console.WriteLine("PASS Password UI: short password rejected by default, accepted with opt-in, accepted on restore");
             return 0;
