@@ -23,10 +23,21 @@ public partial class MainWindow : Window
         foreach (var entry in TextCatalog.All()) Resources[entry.Key] = entry.Value;
         Language = System.Windows.Markup.XmlLanguage.GetLanguage(TextCatalog.Culture.IetfLanguageTag);
     }
+    private void TranslateColumnHeaders()
+    {
+        // DataGridColumn is outside the visual/logical tree and cannot resolve
+        // DynamicResource entries stored in this window's ResourceDictionary.
+        AccountColumn.Header = TextCatalog.Get("ACCOUNT");
+        EmailColumn.Header = TextCatalog.Get("EMAILADDRESS");
+        TypeColumn.Header = TextCatalog.Get("TYPE");
+        IncomingColumn.Header = TextCatalog.Get("INCOMING");
+        OutgoingColumn.Header = TextCatalog.Get("OUTGOING");
+    }
     private void Language_Changed(object sender, SelectionChangedEventArgs e)
     {
         if (!languageInitialized || LanguageBox.SelectedItem is not ComboBoxItem item || item.Tag is not string choice) return;
         ApplyLanguage(choice);
+        TranslateColumnHeaders();
         ShowInstallation();
         if (AccountsGrid.ItemsSource is IReadOnlyList<MailAccount> accounts) CountText.Text = TextCatalog.Get("AccountCount", accounts.Count);
         Status(TextCatalog.Get("ReadySelectAProfileToBegin"));
@@ -42,6 +53,7 @@ public partial class MainWindow : Window
         string choice = preview ? "auto" : LanguagePreference.Load(LanguagePreference.DefaultPath);
         ApplyLanguage(choice);
         InitializeComponent();
+        TranslateColumnHeaders();
         LanguageBox.SelectedIndex = choice == "sv" ? 1 : choice == "en" ? 2 : 0;
         languageInitialized = true;
         SourceInitialized += (_, _) => WindowTheme.Apply(this);

@@ -22,7 +22,9 @@ internal static class Program
         MainWindow? main = null;
         try
         {
-            main = new MainWindow(preview: true); main.Show(); Pump(); Capture(main, "overview.png", output);
+            main = new MainWindow(preview: true); main.Show(); Pump();
+            CheckColumnHeaders(main);
+            Capture(main, "overview.png", output);
             var combo = (ComboBox)main.FindName("ProfilesBox"); combo.IsDropDownOpen = true; Pump();
             var popup = (Popup)combo.Template.FindName("PART_Popup", combo);
             if (popup.Child is not FrameworkElement dropdown || dropdown.ActualHeight < 30) throw new Exception("Profile dropdown did not render.");
@@ -39,6 +41,14 @@ internal static class Program
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }
         finally { main?.Close(); app.Shutdown(); }
     }
+    private static void CheckColumnHeaders(MainWindow main)
+    {
+        var accounts = (DataGrid)main.FindName("AccountsGrid");
+        string[] keys = ["ACCOUNT", "EMAILADDRESS", "TYPE", "INCOMING", "OUTGOING"];
+        for (int i = 0; i < keys.Length; i++)
+            if (accounts.Columns[i].Header is not string header || header != TextCatalog.Get(keys[i]))
+                throw new Exception($"Column {i} header: expected '{TextCatalog.Get(keys[i])}', got '{accounts.Columns[i].Header}'.");
+    }
     private static void TestLanguages(MainWindow main, string output)
     {
         var languages = (ComboBox)main.FindName("LanguageBox");
@@ -52,8 +62,9 @@ internal static class Program
             {
                 languages.SelectedIndex = index; Pump();
                 if (!Descendants<TextBlock>(main).Any(t => t.Text == label)) throw new Exception("Main window did not switch language: " + suffix);
-                if ((string)accounts.Columns[0].Header != heading || count.Text != "5 " + (index == 1 ? "konton" : "accounts"))
-                    throw new Exception("Account table did not switch language.");
+                CheckColumnHeaders(main);
+                if (accounts.Columns[0].Header is not string header || header != heading || count.Text != "5 " + (index == 1 ? "konton" : "accounts"))
+                    throw new Exception($"Account table did not switch language: expected {heading}, got '{accounts.Columns[0].Header}', count '{count.Text}'.");
                 if (!ReferenceEquals(accounts.ItemsSource, source)) throw new Exception("Language switch replaced the selected accounts.");
                 var confirm = new ConfirmationDialog(main, TextCatalog.Get("RestoreAccountsFromANewProfileWillBeCreated", 5, "Test", ""));
                 if (confirm.Title != (index == 1 ? "Granska återställning" : "Review restore")) throw new Exception("Confirmation title is not localized.");
