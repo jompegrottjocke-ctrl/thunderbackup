@@ -14,6 +14,7 @@ internal sealed class PasswordDialog : Window
 
     public PasswordDialog(Window owner, bool create)
     {
+        Style = (Style)FindResource(typeof(Window));
         Owner = owner; Title = create ? "Skapa krypterad backup" : "Öppna din backup";
         Width = 510; SizeToContent = SizeToContent.Height; ResizeMode = ResizeMode.NoResize;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -51,6 +52,11 @@ internal sealed class PasswordDialog : Window
         panel.Children.Add(new TextBlock { Text = "Detta är inte Thunderbirds Primary Password.", Foreground = (Brush)FindResource("Muted"), FontSize = 11, Margin = new Thickness(0, 0, 0, 16) });
         var error = new TextBlock { Foreground = new SolidColorBrush(Color.FromRgb(255, 166, 151)), TextWrapping = TextWrapping.Wrap, Visibility = Visibility.Collapsed, Margin = new Thickness(0, 0, 0, 16) };
         panel.Children.Add(error);
+        void ClearError() { error.Text = ""; error.Visibility = Visibility.Collapsed; }
+        password.PasswordChanged += (_, _) => ClearError();
+        confirmation.PasswordChanged += (_, _) => ClearError();
+        allowShort.Checked += (_, _) => ClearError();
+        allowShort.Unchecked += (_, _) => ClearError();
         var buttons = new Grid(); buttons.ColumnDefinitions.Add(new ColumnDefinition()); buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         var ok = new Button { Content = create ? "Skapa krypterad backup" : "Lås upp backup", IsDefault = true, Style = (Style)FindResource("PrimaryButton"), Margin = new Thickness(0, 0, 10, 0) };
         ok.Click += (_, _) =>

@@ -8,6 +8,7 @@ internal sealed class ConfirmationDialog : Window
 {
     internal ConfirmationDialog(Window owner, string text)
     {
+        Style = (Style)FindResource(typeof(Window));
         Owner = owner; Title = "Granska återställning"; Width = 570; MaxHeight = 740;
         SizeToContent = SizeToContent.Height; ResizeMode = ResizeMode.NoResize;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
