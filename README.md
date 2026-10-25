@@ -1,5 +1,15 @@
 # Thunderbird Account Backup & Restore — 0.2.0
 
+## Download for Windows
+
+### [⬇ Download Windows x64 — v0.2.0 (ZIP)](https://github.com/jompegrottjocke-ctrl/thunderbackup/releases/download/v0.2.0/ThunderbirdAccounts-v0.2.0-win-x64.zip)
+
+Packa upp ZIP-filen och kör **Thunderbird Account Backup and Restore.exe**. Ingen installation eller separat .NET-runtime behövs.
+
+[Alla versioner och kontrollsummor](https://github.com/jompegrottjocke-ctrl/thunderbackup/releases)
+
+**Versionsinformation:** Nedladdningen är v0.2.0. Språkvalet och det engelska gränssnittet i skärmbilden finns på `main`, men ingår ännu inte i en publicerad Windows-release.
+
 En portabel Windows-app med mörkt WPF-gränssnitt. Säkerhetskopierar IMAP-/POP3-konton, identiteter, SMTP-inställningar och sparade inloggningar till en lösenordskrypterad `.tbaccounts`-fil. E-postmeddelanden, bilagor och lokala mappar kopieras inte.
 
 **Första versionen. Kompilerad för Windows x64; Automatiska gränssnittstester renderar fönster och dialoger på Windows med syntetiska konton. En verklig Thunderbird-installation på Windows måste fortfarande acceptanstestas. Provåterställ innan du installerar om Windows.**
